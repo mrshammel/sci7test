@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade 7 Science – Interactions &amp; Ecosystems</title>
+  <meta name="description"
+    content="Interactive Grade 7 Science lessons on Interactions and Ecosystems aligned to the Alberta Curriculum.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0f1a12;
+      --bg2: #162016;
+      --card: #1a2e1e;
+      --card2: #22382a;
+      --accent: #4ade80;
+      --accent2: #22c55e;
+      --accent-glow: rgba(74, 222, 128, .15);
+      --text: #e8f5e9;
+      --text2: #a5d6a7;
+      --text3: #6b9e70;
+      --border: rgba(74, 222, 128, .12);
+      --danger: #ef4444;
+      --warn: #f59e0b;
+      --info: #38bdf8;
+      --quiz-correct: #22c55e;
+      --quiz-wrong: #ef4444;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, .4);
+      --transition: all .3s cubic-bezier(.4, 0, .2, 1)
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    body.light {
+      --bg: #f0f7f0;
+      --bg2: #e8f5e9;
+      --card: #fff;
+      --card2: #f1f8f1;
+      --accent: #16a34a;
+      --accent2: #15803d;
+      --accent-glow: rgba(22, 163, 74, .1);
+      --text: #1a3a1a;
+      --text2: #2d5a2d;
+      --text3: #5a8a5a;
+      --border: rgba(22, 163, 74, .15);
+      --shadow: 0 8px 32px rgba(0, 0, 0, .08)
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      line-height: 1.2
+    }
+
+    /* LAYOUT */
+    .app {
+      display: flex;
+      min-height: 100vh
+    }
+
+    .sidebar {
+      width: 280px;
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      transition: var(--transition)
+    }
+
+    .sidebar.closed {
+      transform: translateX(-100%)
+    }
+
+    .main {
+      flex: 1;
+      margin-left: 280px;
+      padding: 32px 40px 60px;
+      max-width: 900px;
+      transition: var(--transition)
+    }
+
+    @media(max-width:900px) {
+      .sidebar {
+        transform: translateX(-100%)
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 20px 16px 60px
+      }
+    }
+
+    /* SIDEBAR */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      margin-bottom: 28px
+    }
+
+    .logo-icon {
+      font-size: 28px
+    }
+
+    .logo h2 {
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: -.5px
+    }
+
+    .logo span {
+      display: block;
+      font-family: 'Inter';
+      font-size: .7rem;
+      color: var(--text3);
+      font-weight: 500;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      margin-top: 2px
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 4px;
+      font-size: .9rem;
+      color: var(--text2);
+      font-weight: 500;
+      position: relative
+    }
+
+    .nav-item:hover {
+      background: var(--accent-glow);
+      color: var(--accent)
+    }
+
+    .nav-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+      font-weight: 600
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 60%;
+      background: var(--accent);
+      border-radius: 4px
+    }
+
+    .nav-item.locked {
+      opacity: .45;
+      cursor: not-allowed
+    }
+
+    .nav-item.locked:hover {
+      background: transparent;
+      color: var(--text3)
+    }
+
+    .nav-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      border: 1px solid var(--border)
+    }
+
+    .nav-item.active .nav-num {
+      background: var(--accent);
+      color: var(--bg)
+    }
+
+    .nav-item.completed .nav-num {
+      background: var(--accent2);
+      color: #fff
+    }
+
+    .nav-item.completed .nav-num::after {
+      content: '✓'
+    }
+
+    .nav-item.completed .nav-num span {
+      display: none
+    }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .menu-btn {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: var(--transition)
+    }
+
+    .menu-btn:hover {
+      background: var(--accent-glow);
+      color: var(--accent)
+    }
+
+    @media(max-width:900px) {
+      .menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .theme-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .theme-btn:hover {
+      background: var(--accent-glow);
+      color: var(--accent)
+    }
+
+    .progress-bar-wrap {
+      background: var(--card);
+      border-radius: 20px;
+      height: 8px;
+      flex: 1;
+      min-width: 120px;
+      max-width: 200px;
+      overflow: hidden
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 20px;
+      transition: width .5s ease;
+      width: 0%
+    }
+
+    /* CARDS */
+    .glass-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      transition: var(--transition)
+    }
+
+    .glass-card:hover {
+      border-color: rgba(74, 222, 128, .25)
+    }
+
+    .outcome-tag {
+      display: inline-block;
+      background: var(--accent-glow);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .3px;
+      margin: 2px 4px 2px 0;
+      text-transform: uppercase
+    }
+
+    /* LESSON HEADER */
+    .lesson-header {
+      text-align: center;
+      padding: 20px 0 10px
+    }
+
+    .lesson-num {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .lesson-title {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--accent), #86efac);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px
+    }
+
+    .lesson-subtitle {
+      color: var(--text2);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto
+    }
+
+    /* CONTENT */
+    .section-title {
+      font-size: 1.25rem;
+      color: var(--accent);
+      margin: 24px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .section-title .icon {
+      font-size: 1.3rem
+    }
+
+    .content p {
+      margin-bottom: 14px;
+      color: var(--text2)
+    }
+
+    .content strong {
+      color: var(--text)
+    }
+
+    .vocab {
+      display: inline;
+      background: var(--accent-glow);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: .88rem;
+      cursor: help;
+      border-bottom: 2px dashed var(--accent2)
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0
+    }
+
+    .info-box {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      text-align: center;
+      transition: var(--transition)
+    }
+
+    .info-box:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent)
+    }
+
+    .info-box .emoji {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block
+    }
+
+    .info-box h4 {
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: .95rem
+    }
+
+    .info-box p {
+      font-size: .82rem;
+      color: var(--text3)
+    }
+
+    .key-point {
+      background: linear-gradient(135deg, rgba(74, 222, 128, .08), rgba(34, 197, 94, .05));
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 16px 0
+    }
+
+    .key-point p {
+      margin: 0;
+      color: var(--text2)
+    }
+
+    /* EXPANDABLE */
+    .expandable {
+      margin: 12px 0
+    }
+
+    .expand-btn {
+      width: 100%;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: left;
+      font-size: .9rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .expand-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow)
+    }
+
+    .expand-btn .arrow {
+      transition: transform .3s ease;
+      font-size: .8rem
+    }
+
+    .expand-btn.open .arrow {
+      transform: rotate(180deg)
+    }
+
+    .expand-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+      padding: 0 18px
+    }
+
+    .expand-content.open {
+      max-height: 1200px;
+      padding: 16px 18px
+    }
+
+    /* VIDEO */
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      margin: 16px 0;
+      box-shadow: var(--shadow)
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: var(--radius)
+    }
+
+    .video-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: .85rem;
+      color: var(--text3);
+      font-weight: 500
+    }
+
+    /* QUIZ VIEW */
+    .quiz-view {
+      display: none;
+      animation: fadeUp .4s ease
+    }
+
+    .quiz-view.active {
+      display: block
+    }
+
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px
+    }
+
+    .quiz-progress-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--card2);
+      border-radius: 20px;
+      overflow: hidden
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 20px;
+      transition: width .4s ease
+    }
+
+    .quiz-progress-text {
+      font-size: .85rem;
+      color: var(--text3);
+      font-weight: 600;
+      white-space: nowrap
+    }
+
+    .quiz-question-wrap {
+      min-height: 300px
+    }
+
+    .question-card {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: var(--transition);
+      animation: fadeUp .3s ease
+    }
+
+    .q-outcome {
+      font-size: .7rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      display: inline-block;
+      background: var(--accent-glow);
+      padding: 3px 10px;
+      border-radius: 12px
+    }
+
+    .q-num {
+      font-size: .75rem;
+      color: var(--text3);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px
+    }
+
+    .q-text {
+      font-weight: 600;
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+      line-height: 1.5
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
+
+    .option-btn {
+      background: var(--card);
+      border: 2px solid var(--border);
+      color: var(--text2);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: left;
+      font-size: .92rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .option-btn:hover:not(.disabled) {
+      border-color: var(--accent);
+      color: var(--text);
+      background: var(--accent-glow);
+      transform: translateX(4px)
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--text)
+    }
+
+    .option-btn.correct-answer {
+      border-color: var(--quiz-correct) !important;
+      background: rgba(34, 197, 94, .15) !important;
+      color: var(--text) !important
+    }
+
+    .option-btn.wrong-answer {
+      border-color: var(--quiz-wrong) !important;
+      background: rgba(239, 68, 68, .12) !important;
+      color: var(--text) !important
+    }
+
+    .option-btn.disabled {
+      cursor: default;
+      opacity: .7
+    }
+
+    .option-letter {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      border: 1px solid var(--border)
+    }
+
+    .feedback-box {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-size: .9rem;
+      font-weight: 500;
+      display: none;
+      animation: fadeUp .3s ease
+    }
+
+    .feedback-box.show {
+      display: block
+    }
+
+    .feedback-box.correct {
+      background: rgba(34, 197, 94, .1);
+      color: var(--quiz-correct);
+      border: 1px solid rgba(34, 197, 94, .25)
+    }
+
+    .feedback-box.wrong {
+      background: rgba(239, 68, 68, .1);
+      color: var(--quiz-wrong);
+      border: 1px solid rgba(239, 68, 68, .25)
+    }
+
+    .quiz-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+      gap: 12px
+    }
+
+    .quiz-next-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      border: none;
+      padding: 14px 36px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: var(--transition);
+      display: none
+    }
+
+    .quiz-next-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(74, 222, 128, .3)
+    }
+
+    .quiz-next-btn.show {
+      display: inline-flex
+    }
+
+    /* QUIZ RESULTS */
+    .quiz-results-view {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      animation: fadeUp .5s ease
+    }
+
+    .quiz-results-view.active {
+      display: block
+    }
+
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      font-family: 'Outfit'
+    }
+
+    .score-circle.pass {
+      background: rgba(34, 197, 94, .15);
+      color: var(--quiz-correct);
+      border: 3px solid var(--quiz-correct)
+    }
+
+    .score-circle.fail {
+      background: rgba(239, 68, 68, .15);
+      color: var(--quiz-wrong);
+      border: 3px solid var(--quiz-wrong)
+    }
+
+    .quiz-msg {
+      font-size: 1.1rem;
+      color: var(--text2);
+      margin-bottom: 8px
+    }
+
+    .quiz-msg-sub {
+      font-size: .9rem;
+      color: var(--text3);
+      margin-bottom: 24px
+    }
+
+    .results-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      margin: 0 6px
+    }
+
+    .results-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .results-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      border: none
+    }
+
+    .results-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(74, 222, 128, .3)
+    }
+
+    /* REMEDIATION */
+    .remediation-view {
+      display: none;
+      animation: fadeUp .4s ease
+    }
+
+    .remediation-view.active {
+      display: block
+    }
+
+    .remediation-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px
+    }
+
+    .remediation-header h2 {
+      color: var(--warn);
+      font-size: 1.4rem;
+      margin-bottom: 8px
+    }
+
+    .remediation-header p {
+      color: var(--text3);
+      font-size: .9rem
+    }
+
+    /* HOME CARDS */
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 32px
+    }
+
+    .lesson-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden
+    }
+
+    .lesson-card:hover:not(.locked) {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 40px rgba(74, 222, 128, .15)
+    }
+
+    .lesson-card.locked {
+      opacity: .5;
+      cursor: not-allowed;
+      filter: grayscale(.4)
+    }
+
+    .lesson-card.locked::after {
+      content: '🔒';
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 1.4rem
+    }
+
+    .lesson-card.completed {
+      border-color: var(--accent2)
+    }
+
+    .lesson-card.completed::after {
+      content: '✅';
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 1.4rem
+    }
+
+    .lesson-card .card-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block
+    }
+
+    .lesson-card h3 {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 8px
+    }
+
+    .lesson-card p {
+      font-size: .88rem;
+      color: var(--text3);
+      margin-bottom: 16px
+    }
+
+    .lesson-card .card-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      padding: 10px 24px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: .9rem;
+      transition: var(--transition)
+    }
+
+    .lesson-card.locked .card-btn {
+      background: var(--card2);
+      color: var(--text3)
+    }
+
+    /* IMAGE GALLERY */
+    .eco-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 16px 0
+    }
+
+    .eco-thumb {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      border: 2px solid var(--border);
+      transition: var(--transition);
+      aspect-ratio: 16/10
+    }
+
+    .eco-thumb:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .3)
+    }
+
+    .eco-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease
+    }
+
+    .eco-thumb:hover img {
+      transform: scale(1.05)
+    }
+
+    .eco-thumb .thumb-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, .8));
+      padding: 12px;
+      color: #fff;
+      font-weight: 700;
+      font-size: .9rem
+    }
+
+    /* IMAGE MODAL */
+    .img-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, .92);
+      align-items: center;
+      justify-content: center;
+      padding: 20px
+    }
+
+    .img-modal.show {
+      display: flex
+    }
+
+    .img-modal-inner {
+      position: relative;
+      max-width: 1000px;
+      width: 100%;
+      max-height: 90vh
+    }
+
+    .img-modal-inner img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      max-height: 80vh;
+      object-fit: contain
+    }
+
+    .img-modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .img-modal-close:hover {
+      color: var(--accent);
+      transform: scale(1.2)
+    }
+
+    .img-modal-title {
+      text-align: center;
+      color: #fff;
+      font-size: 1.3rem;
+      font-family: 'Outfit';
+      margin-top: 12px
+    }
+
+    .vocab-tags {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 40px;
+      pointer-events: none
+    }
+
+    .vocab-tag {
+      position: absolute;
+      pointer-events: all;
+      background: rgba(74, 222, 128, .9);
+      color: #0f1a12;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: .75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .3)
+    }
+
+    .vocab-tag:hover {
+      background: #4ade80;
+      transform: scale(1.1)
+    }
+
+    .vocab-popover {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      min-width: 260px;
+      max-width: 320px;
+      z-index: 210;
+      color: var(--text);
+      font-size: .85rem;
+      font-weight: 400;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      text-align: left;
+      white-space: normal
+    }
+
+    .vocab-popover.show {
+      display: block;
+      animation: fadeUp .2s ease
+    }
+
+    .vocab-popover h4 {
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-size: .9rem
+    }
+
+    .vocab-popover p {
+      color: var(--text2);
+      margin: 0;
+      line-height: 1.5
+    }
+
+    /* NAV BTNS */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      gap: 12px;
+      flex-wrap: wrap
+    }
+
+    .nav-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text2);
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .9rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow)
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--bg);
+      border: none
+    }
+
+    .nav-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(74, 222, 128, .3)
+    }
+
+    /* WELCOME */
+    .welcome {
+      text-align: center;
+      padding: 60px 20px
+    }
+
+    .welcome h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--accent), #86efac, #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px
+    }
+
+    .welcome p {
+      color: var(--text2);
+      font-size: 1.05rem;
+      max-width: 550px;
+      margin: 0 auto 28px
+    }
+
+    /* OVERLAY */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      z-index: 99
+    }
+
+    .overlay.show {
+      display: block
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .lesson-page {
+      display: none;
+      animation: fadeUp .4s ease
+    }
+
+    .lesson-page.active {
+      display: block
+    }
+
+    /* COMPARE TABLE */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 16px 0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border)
+    }
+
+    .compare-table th {
+      background: var(--accent-glow);
+      color: var(--accent);
+      padding: 12px 16px;
+      text-align: left;
+      font-size: .85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px
+    }
+
+    .compare-table td {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      font-size: .88rem;
+      color: var(--text2)
+    }
+
+    .compare-table tr:hover td {
+      background: var(--accent-glow)
+    }
+
+    .styled-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0
+    }
+
+    .styled-list li {
+      padding: 8px 0 8px 28px;
+      position: relative;
+      color: var(--text2);
+      font-size: .9rem
+    }
+
+    .styled-list li::before {
+      content: '🌿';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      font-size: .85rem
+    }
+
+    /* STRIKE INDICATOR */
+    .strike-dots {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px
+    }
+
+    .strike-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--card2);
+      border: 1px solid var(--border)
+    }
+
+    .strike-dot.used {
+      background: var(--quiz-wrong);
+      border-color: var(--quiz-wrong)
+    }
+  </style>
+</head>
+
+<body>
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- IMAGE MODAL -->
+  <div class="img-modal" id="imgModal">
+    <div class="img-modal-inner">
+      <button class="img-modal-close" onclick="closeModal()">&times;</button>
+      <img id="modalImg" src="" alt="">
+      <div class="vocab-tags" id="vocabTags"></div>
+      <div class="img-modal-title" id="modalTitle"></div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <span class="logo-icon">🌿</span>
+      <h2>EcoExplorer<span>Grade 7 Science</span></h2>
+    </div>
+    <div class="nav-item active" data-page="home" onclick="goTo('home')">
+      <div class="nav-num"><span>🏠</span></div> Home
+    </div>
+    <div class="nav-item" data-page="lesson1" onclick="goTo('lesson1')">
+      <div class="nav-num"><span>1</span></div> Intro to Ecosystems
+    </div>
+    <div class="nav-item" data-page="lesson1-quiz" onclick="goTo('lesson1-quiz')">
+      <div class="nav-num"><span>📝</span></div> Quiz 1
+    </div>
+    <div class="nav-item locked" data-page="lesson2" onclick="goTo('lesson2')">
+      <div class="nav-num"><span>2</span></div> Food Chains &amp; Webs
+    </div>
+    <div class="nav-item locked" data-page="lesson2-quiz" onclick="goTo('lesson2-quiz')">
+      <div class="nav-num"><span>📝</span></div> Quiz 2
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="top-actions">
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Dark</button>
+      </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="lesson-page active" id="page-home">
+      <div class="welcome">
+        <div style="font-size:4rem;margin-bottom:16px">🌍</div>
+        <h1>Interactions &amp; Ecosystems</h1>
+        <p>Welcome to <strong>Grade 7 Science</strong>! Explore how living and non-living things interact in the world
+          around us.</p>
+        <p style="font-size:.88rem;color:var(--text3);margin-bottom:8px">Alberta Curriculum • Unit A: Interactions &amp;
+          Ecosystems</p>
+      </div>
+      <div class="home-grid">
+        <div class="lesson-card" id="homeCard1" onclick="goTo('lesson1')">
+          <span class="card-icon">🌿</span>
+          <h3>Lesson 1</h3>
+          <p>Introduction to Ecosystems — biotic &amp; abiotic factors, types of ecosystems</p>
+          <div class="card-btn">Start Lesson →</div>
+        </div>
+        <div class="lesson-card locked" id="homeCard2" onclick="goTo('lesson2')">
+          <span class="card-icon">🔗</span>
+          <h3>Lesson 2</h3>
+          <p>Food Chains, Food Webs &amp; Energy Flow — producers, consumers, decomposers</p>
+          <div class="card-btn">Locked — Complete Lesson 1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LESSON 1 CONTENT -->
+    <div class="lesson-page" id="page-lesson1">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1</div>
+        <h1 class="lesson-title">Introduction to Ecosystems</h1>
+        <p class="lesson-subtitle">Discover the living and non-living parts of ecosystems and how they work together.
+        </p>
+        <div style="margin-top:14px"><span class="outcome-tag">STS-K.1</span><span class="outcome-tag">STS-K.2</span>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🎯</span> What You'll Learn</h3>
+        <ul class="styled-list">
+          <li>Define what an ecosystem is and identify examples</li>
+          <li>Distinguish between <strong>biotic</strong> (living) and <strong>abiotic</strong> (non-living) factors
+          </li>
+          <li>Explain how biotic and abiotic factors interact and depend on each other</li>
+          <li>Describe how ecosystems meet the needs of living things</li>
+        </ul>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🌎</span> What Is an Ecosystem?</h3>
+        <p>An <span class="vocab"
+            title="A community of living organisms interacting with each other and their non-living environment">ecosystem</span>
+          is a community of <strong>living organisms</strong> (plants, animals, fungi, bacteria) interacting with each
+          other and their <strong>non-living environment</strong> (water, air, soil, sunlight). Ecosystems can be as
+          small as a puddle or as large as the entire Earth!</p>
+        <p>Every ecosystem has two main types of components working together:</p>
+        <div class="info-grid">
+          <div class="info-box"><span class="emoji">🌱</span>
+            <h4>Biotic Factors</h4>
+            <p>All <strong>living</strong> or once-living things: plants, animals, fungi, bacteria, and their remains
+            </p>
+          </div>
+          <div class="info-box"><span class="emoji">☀️</span>
+            <h4>Abiotic Factors</h4>
+            <p>All <strong>non-living</strong> elements: sunlight, water, temperature, soil, air, minerals</p>
+          </div>
+        </div>
+        <div class="key-point">
+          <p>💡 <strong>Key Idea:</strong> Every ecosystem depends on the <em>interactions</em> between biotic and
+            abiotic factors. Remove one piece, and the entire system can be affected!</p>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">📺</span> Watch: Introduction to Ecosystems</h3>
+        <div class="video-label">🎬 Video 1 — What is an ecosystem?</div>
+        <div class="video-wrap"><iframe src="https://www.youtube.com/embed/oV15rlBEbYA" title="Ecosystems Introduction"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe></div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🔬</span> Biotic Factors: The Living World</h3>
+        <p><span class="vocab"
+            title="Living components of an ecosystem including plants, animals, fungi, and microorganisms">Biotic
+            factors</span> include every living organism in an ecosystem — from the tallest tree to the tiniest
+          bacterium. They can be grouped into:</p>
+        <div class="info-grid">
+          <div class="info-box"><span class="emoji">🌳</span>
+            <h4>Plants</h4>
+            <p>Produce food through photosynthesis; provide oxygen and shelter</p>
+          </div>
+          <div class="info-box"><span class="emoji">🦌</span>
+            <h4>Animals</h4>
+            <p>Consume plants or other animals; help with pollination and seed dispersal</p>
+          </div>
+          <div class="info-box"><span class="emoji">🍄</span>
+            <h4>Fungi</h4>
+            <p>Decompose dead matter; recycle nutrients back into the soil</p>
+          </div>
+          <div class="info-box"><span class="emoji">🦠</span>
+            <h4>Bacteria</h4>
+            <p>Break down organic materials; some fix nitrogen for plant use</p>
+          </div>
+        </div>
+        <div class="expandable">
+          <button class="expand-btn" onclick="toggleExpand(this)">🤔 Why are dead organisms still considered biotic?
+            <span class="arrow">▼</span></button>
+          <div class="expand-content">
+            <p>Dead organisms are still classified as <strong>biotic</strong> because they were once living. Fallen
+              leaves, dead animals, and decaying wood all still play crucial roles in the ecosystem — decomposers break
+              them down, returning nutrients to the soil that living plants can use. The distinction is about
+              <em>origin</em>, not current state!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">💧</span> Abiotic Factors: The Non-Living World</h3>
+        <p><span class="vocab"
+            title="Non-living physical and chemical elements of an ecosystem such as water, temperature, light, and soil">Abiotic
+            factors</span> are the non-living parts of an ecosystem. Even though they aren't alive, they are
+          <em>essential</em> for the survival of every organism.
+        </p>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Abiotic Factor</th>
+              <th>Role in the Ecosystem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>☀️ <strong>Sunlight</strong></td>
+              <td>Energy source for photosynthesis; affects temperature and seasons</td>
+            </tr>
+            <tr>
+              <td>💧 <strong>Water</strong></td>
+              <td>Essential for all life; habitat for aquatic organisms</td>
+            </tr>
+            <tr>
+              <td>🌡️ <strong>Temperature</strong></td>
+              <td>Determines which species can survive in an area</td>
+            </tr>
+            <tr>
+              <td>🪨 <strong>Soil &amp; Minerals</strong></td>
+              <td>Provides nutrients for plants; habitat for organisms like worms</td>
+            </tr>
+            <tr>
+              <td>💨 <strong>Air (Atmosphere)</strong></td>
+              <td>Provides oxygen for animals and CO₂ for plants</td>
+            </tr>
+            <tr>
+              <td>🌧️ <strong>Precipitation</strong></td>
+              <td>Delivers water to land ecosystems; shapes landscapes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">📺</span> Watch: Biotic &amp; Abiotic Factors</h3>
+        <div class="video-label">🎬 Video 2 — Understanding biotic and abiotic factors</div>
+        <div class="video-wrap"><iframe src="https://www.youtube.com/embed/7ll-UrjQFIQ"
+            title="Biotic and Abiotic Factors"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe></div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🏔️</span> Types of Ecosystems</h3>
+        <p>Ecosystems exist everywhere on Earth! Click any ecosystem image to explore it in detail.</p>
+        <div class="eco-gallery">
+          <div class="eco-thumb" onclick="openModal('forest')"><img src="images/forest.png" alt="Forest Ecosystem"
+              loading="lazy">
+            <div class="thumb-label">🌲 Forest</div>
+          </div>
+          <div class="eco-thumb" onclick="openModal('grassland')"><img src="images/grassland.png"
+              alt="Grassland Ecosystem" loading="lazy">
+            <div class="thumb-label">🌾 Grassland</div>
+          </div>
+          <div class="eco-thumb" onclick="openModal('desert')"><img src="images/desert.png" alt="Desert Ecosystem"
+              loading="lazy">
+            <div class="thumb-label">🏜️ Desert</div>
+          </div>
+          <div class="eco-thumb" onclick="openModal('freshwater')"><img src="images/freshwater.png"
+              alt="Freshwater Ecosystem" loading="lazy">
+            <div class="thumb-label">🐟 Freshwater</div>
+          </div>
+          <div class="eco-thumb" onclick="openModal('marine')"><img src="images/marine.png" alt="Marine Ecosystem"
+              loading="lazy">
+            <div class="thumb-label">🐙 Marine</div>
+          </div>
+          <div class="eco-thumb" onclick="openModal('tundra')"><img src="images/tundra.png" alt="Tundra Ecosystem"
+              loading="lazy">
+            <div class="thumb-label">❄️ Tundra</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🔗</span> How Ecosystems Meet the Needs of Life</h3>
+        <p>Every living organism needs certain things to survive. A healthy ecosystem provides all of these:</p>
+        <div class="info-grid">
+          <div class="info-box"><span class="emoji">🥗</span>
+            <h4>Nutrients</h4>
+            <p>Food and minerals for growth, energy, and repair</p>
+          </div>
+          <div class="info-box"><span class="emoji">⚡</span>
+            <h4>Energy</h4>
+            <p>Sunlight drives photosynthesis; energy flows through food chains</p>
+          </div>
+          <div class="info-box"><span class="emoji">💦</span>
+            <h4>Moisture</h4>
+            <p>Water for cellular processes, temperature regulation</p>
+          </div>
+          <div class="info-box"><span class="emoji">🏠</span>
+            <h4>Habitat</h4>
+            <p>Shelter, space, and suitable conditions for living and reproducing</p>
+          </div>
+          <div class="info-box"><span class="emoji">🌬️</span>
+            <h4>Gas Exchange</h4>
+            <p>O₂ for animals, CO₂ for plants — a constant cycle</p>
+          </div>
+        </div>
+        <div class="key-point">
+          <p>💡 <strong>Alberta Outcome:</strong> Illustrate how life-supporting environments meet the needs of living
+            things for nutrients, energy sources, moisture, suitable habitat, and exchange of gases. <em>(STS-K.1)</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="nav-btn" onclick="goTo('home')">← Home</button>
+        <button class="nav-btn primary" onclick="goTo('lesson1-quiz')">Take the Quiz 📝</button>
+      </div>
+    </div>
+
+    <!-- LESSON 1 QUIZ -->
+    <div class="lesson-page" id="page-lesson1-quiz">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 1 — Quiz</div>
+        <h1 class="lesson-title">Check Your Understanding</h1>
+        <p class="lesson-subtitle">Answer each question. Two wrong answers on the same topic will trigger a mini-lesson
+          to help you master it!</p>
+      </div>
+      <div id="quiz1-area"></div>
+    </div>
+
+    <!-- LESSON 2 CONTENT -->
+    <div class="lesson-page" id="page-lesson2">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2</div>
+        <h1 class="lesson-title">Food Chains, Food Webs &amp; Energy Flow</h1>
+        <p class="lesson-subtitle">Trace the flow of energy and nutrients through an ecosystem.</p>
+        <div style="margin-top:14px"><span class="outcome-tag">STS-K.2</span></div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🎯</span> What You'll Learn</h3>
+        <ul class="styled-list">
+          <li>Identify <strong>producers</strong>, <strong>consumers</strong>, and <strong>decomposers</strong> in an
+            ecosystem</li>
+          <li>Explain how energy flows through a <strong>food chain</strong></li>
+          <li>Describe how food chains connect to form <strong>food webs</strong></li>
+          <li>Understand <strong>energy pyramids</strong> and why energy decreases at each level</li>
+          <li>Predict what happens when a link in a food chain is disrupted</li>
+        </ul>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">⚡</span> Energy in Ecosystems</h3>
+        <p>All life needs <strong>energy</strong> to survive. In nearly every ecosystem on Earth, that energy begins
+          with the <strong>Sun</strong>. But how does energy get from sunlight to a wolf? Through a series of steps
+          called a <span class="vocab" title="A linear path showing how energy moves from one organism to another">food
+            chain</span>!</p>
+        <p>Energy flows in one direction: from the <strong>Sun</strong> → to <strong>producers</strong> → to
+          <strong>consumers</strong> → and is recycled by <strong>decomposers</strong>.
+        </p>
+        <div class="key-point">
+          <p>💡 <strong>Key Idea:</strong> Energy is <em>not</em> recycled — it flows one way and is lost as heat at
+            each step. Only about <strong>10%</strong> of energy is passed from one level to the next!</p>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🌱</span> Producers, Consumers &amp; Decomposers</h3>
+        <p>Every organism in an ecosystem plays a role based on how it gets its energy:</p>
+        <div class="info-grid">
+          <div class="info-box"><span class="emoji">🌿</span>
+            <h4>Producers</h4>
+            <p><strong>Autotrophs</strong> — make their own food through photosynthesis. Examples: grass, trees, algae
+            </p>
+          </div>
+          <div class="info-box"><span class="emoji">🐰</span>
+            <h4>Primary Consumers</h4>
+            <p><strong>Herbivores</strong> — eat producers. Examples: rabbits, deer, grasshoppers</p>
+          </div>
+          <div class="info-box"><span class="emoji">🐍</span>
+            <h4>Secondary Consumers</h4>
+            <p><strong>Carnivores/Omnivores</strong> — eat primary consumers. Examples: snakes, frogs</p>
+          </div>
+          <div class="info-box"><span class="emoji">🦅</span>
+            <h4>Tertiary Consumers</h4>
+            <p><strong>Top predators</strong> — eat secondary consumers. Examples: eagles, wolves, sharks</p>
+          </div>
+          <div class="info-box"><span class="emoji">🍄</span>
+            <h4>Decomposers</h4>
+            <p>Break down dead organisms and waste, returning nutrients to soil. Examples: fungi, bacteria</p>
+          </div>
+        </div>
+        <div class="expandable">
+          <button class="expand-btn" onclick="toggleExpand(this)">🤔 What's the difference between a scavenger and a
+            decomposer? <span class="arrow">▼</span></button>
+          <div class="expand-content">
+            <p><strong>Scavengers</strong> (like vultures and hyenas) eat dead animals but don't break them down
+              completely. <strong>Decomposers</strong> (like bacteria and fungi) break down dead matter at the
+              <em>molecular level</em>, returning nutrients directly to the soil.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">📺</span> Watch: Food Chains &amp; Food Webs</h3>
+        <div class="video-label">🎬 Video 1 — How energy flows through food chains and webs</div>
+        <div class="video-wrap"><iframe src="https://www.youtube.com/embed/MuKs9o1s8h8"
+            title="Food Chains and Food Webs"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe></div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🔗</span> Food Chains</h3>
+        <p>A <span class="vocab" title="A linear sequence showing how energy passes from one organism to the next">food
+            chain</span> is a simple, straight-line path showing <strong>who eats whom</strong>. Each step is called a
+          <span class="vocab" title="A feeding level in a food chain or web">trophic level</span>.
+        </p>
+        <div class="key-point">
+          <p>🌞 Sun → 🌱 Grass <em>(producer)</em> → 🐰 Rabbit <em>(primary consumer)</em> → 🐍 Snake <em>(secondary
+              consumer)</em> → 🦅 Hawk <em>(tertiary consumer)</em> → 🍄 Decomposers</p>
+        </div>
+        <p>The <strong>arrows</strong> in a food chain show the direction that <strong>energy flows</strong>.</p>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🕸️</span> Food Webs</h3>
+        <p>In reality, most organisms eat <em>more than one thing</em> and are eaten by <em>more than one predator</em>.
+          A <span class="vocab" title="A complex network of interconnected food chains in an ecosystem">food web</span>
+          shows all of these <strong>interconnected food chains</strong>.</p>
+        <div class="expandable">
+          <button class="expand-btn" onclick="toggleExpand(this)">🤔 What happens when one species is removed from a
+            food web? <span class="arrow">▼</span></button>
+          <div class="expand-content">
+            <p>Removing one species can have a <strong>ripple effect</strong> throughout the entire food web! This is
+              called a <strong>trophic cascade</strong>. The more interconnected a food web is, the more stable the
+              ecosystem tends to be.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">📺</span> Watch: Producers, Consumers &amp; Decomposers</h3>
+        <div class="video-label">🎬 Video 2 — Roles of organisms in ecosystems</div>
+        <div class="video-wrap"><iframe src="https://www.youtube.com/embed/fcrMFB6Y01E"
+            title="Producers Consumers and Decomposers"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen loading="lazy"></iframe></div>
+      </div>
+
+      <div class="glass-card content">
+        <h3 class="section-title"><span class="icon">🔺</span> Energy Pyramids</h3>
+        <p>An <span class="vocab" title="A diagram showing the amount of energy available at each trophic level">energy
+            pyramid</span> shows how much energy is available at each <strong>trophic level</strong>.</p>
+        <div style="text-align:center;margin:20px 0;font-family:'Outfit';font-size:.9rem">
+          <div
+            style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);width:30%;margin:0 auto;padding:12px;border-radius:8px 8px 0 0">
+            🦅 Tertiary<br><small style="color:var(--text3)">1 kcal</small></div>
+          <div
+            style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);width:50%;margin:0 auto;padding:12px">
+            🐍 Secondary<br><small style="color:var(--text3)">10 kcal</small></div>
+          <div
+            style="background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.3);width:70%;margin:0 auto;padding:12px">
+            🐰 Primary<br><small style="color:var(--text3)">100 kcal</small></div>
+          <div
+            style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.3);width:90%;margin:0 auto;padding:12px;border-radius:0 0 8px 8px">
+            🌿 Producers<br><small style="color:var(--text3)">1,000 kcal</small></div>
+        </div>
+        <p>At each level, about <strong>90% of the energy</strong> is lost as <strong>heat</strong>. Only
+          <strong>~10%</strong> is passed on. This is the <strong>10% Rule</strong>.
+        </p>
+        <div class="key-point">
+          <p>💡 <strong>Alberta Outcome:</strong> Analyze ecosystems to identify producers, consumers, and decomposers;
+            describe how energy is supplied to and flows through a food web. <em>(STS-K.2)</em></p>
+        </div>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="nav-btn" onclick="goTo('home')">← Home</button>
+        <button class="nav-btn primary" onclick="goTo('lesson2-quiz')">Take the Quiz 📝</button>
+      </div>
+    </div>
+
+    <!-- LESSON 2 QUIZ -->
+    <div class="lesson-page" id="page-lesson2-quiz">
+      <div class="lesson-header">
+        <div class="lesson-num">Lesson 2 — Quiz</div>
+        <h1 class="lesson-title">Check Your Understanding</h1>
+        <p class="lesson-subtitle">Answer each question. Two wrong answers on the same topic will trigger a mini-lesson
+          to help you master it!</p>
+      </div>
+      <div id="quiz2-area"></div>
+    </div>
+
+  </div><!-- end main -->
+
+  <script>
+    const ecoData = {
+      forest: {
+        img: 'images/forest.png', title: '🌲 Forest Ecosystem', tags: [
+          { x: '20%', y: '30%', label: 'Producers', desc: 'The trees and ferns capture sunlight through photosynthesis to create food and release oxygen.' },
+          { x: '65%', y: '55%', label: 'Consumers', desc: 'Deer, birds, insects, and bears depend on producers or other animals for food.' },
+          { x: '40%', y: '80%', label: 'Decomposers', desc: 'Fungi and bacteria break down fallen leaves and dead organisms, recycling nutrients into soil.' },
+          { x: '75%', y: '20%', label: 'Sunlight', desc: 'Sunlight provides energy for photosynthesis and influences temperature.' },
+          { x: '15%', y: '70%', label: 'Soil', desc: 'Forest soil is rich in nutrients from decomposed organic matter.' }]
+      },
+      grassland: {
+        img: 'images/grassland.png', title: '🌾 Grassland', tags: [
+          { x: '30%', y: '65%', label: 'Grasses', desc: 'Grasses are the dominant producers, providing food for large herds of herbivores.' },
+          { x: '60%', y: '40%', label: 'Herbivores', desc: 'Bison, antelope, and grasshoppers graze on the abundant grasses.' },
+          { x: '80%', y: '30%', label: 'Predators', desc: 'Wolves and hawks hunt herbivores as secondary/tertiary consumers.' }]
+      },
+      desert: {
+        img: 'images/desert.png', title: '🏜️ Desert', tags: [
+          { x: '25%', y: '50%', label: 'Cacti', desc: 'Cacti store water and have spines instead of leaves to reduce water loss.' },
+          { x: '70%', y: '60%', label: 'Adapted Animals', desc: 'Lizards and kangaroo rats survive extreme heat with minimal water.' },
+          { x: '50%', y: '20%', label: 'Temperature', desc: 'Extreme temperature swings limit which organisms can survive.' }]
+      },
+      freshwater: {
+        img: 'images/freshwater.png', title: '🐟 Freshwater', tags: [
+          { x: '35%', y: '45%', label: 'Algae', desc: 'Algae and aquatic plants are the main producers in freshwater ecosystems.' },
+          { x: '60%', y: '55%', label: 'Fish', desc: 'Fish like trout and bass form key links in freshwater food chains.' },
+          { x: '20%', y: '75%', label: 'Water', desc: 'Temperature, clarity, and dissolved oxygen determine which organisms live here.' }]
+      },
+      marine: {
+        img: 'images/marine.png', title: '🐙 Marine', tags: [
+          { x: '30%', y: '35%', label: 'Phytoplankton', desc: 'Microscopic phytoplankton produce over 50% of Earth\'s oxygen!' },
+          { x: '65%', y: '50%', label: 'Consumers', desc: 'From zooplankton to whales, ocean consumers form complex food webs.' },
+          { x: '45%', y: '75%', label: 'Salinity', desc: 'Marine organisms have special adaptations for high salt content.' }]
+      },
+      tundra: {
+        img: 'images/tundra.png', title: '❄️ Tundra', tags: [
+          { x: '35%', y: '55%', label: 'Lichens & Mosses', desc: 'Hardy lichens and mosses survive freezing temperatures and grow on bare rock.' },
+          { x: '65%', y: '40%', label: 'Arctic Animals', desc: 'Caribou and arctic foxes are adapted with thick fur and fat layers.' },
+          { x: '45%', y: '25%', label: 'Permafrost', desc: 'Permanently frozen ground prevents deep root growth — no trees can grow.' }]
+      }
+    };
+    const quizBanks = {
+      quiz1: {
+        primary: [
+          { q: "What is an ecosystem?", opts: ["A group of the same species", "A community of living organisms interacting with their non-living environment", "Only plants and animals in a forest", "Weather patterns of a region"], ans: 1, outcome: "STS-K.1", explain: "An ecosystem includes ALL living organisms AND non-living factors interacting together." },
+          { q: "Which is a BIOTIC factor?", opts: ["Sunlight", "Temperature", "Mushroom", "Water"], ans: 2, outcome: "STS-K.1", explain: "A mushroom is a living organism (fungus), making it biotic." },
+          { q: "Which is an ABIOTIC factor?", opts: ["Bacteria", "Soil minerals", "Oak tree", "Eagle"], ans: 1, outcome: "STS-K.1", explain: "Soil minerals are non-living — abiotic." },
+          { q: "Why are dead leaves considered biotic?", opts: ["They produce oxygen", "They were once part of a living organism", "They contain water", "They are part of the soil"], ans: 1, outcome: "STS-K.1", explain: "Biotic = living or ONCE living." },
+          { q: "Which ecosystem has the LEAST precipitation?", opts: ["Rainforest", "Freshwater lake", "Grassland", "Desert"], ans: 3, outcome: "STS-K.2", explain: "Deserts receive less than 25 cm of rain per year." },
+          { q: "What do living things need? Select the MOST complete answer.", opts: ["Only food and water", "Nutrients, energy, moisture, habitat, and gas exchange", "Just sunlight and soil", "Only shelter and food"], ans: 1, outcome: "STS-K.1", explain: "All five are needed." },
+          { q: "In a pond with fish, algae, water, rocks, sunlight — which are ABIOTIC?", opts: ["Fish and algae", "Water, rocks, and sunlight", "Fish, algae, and rocks", "Only sunlight"], ans: 1, outcome: "STS-K.1", explain: "Water, rocks, sunlight are all non-living." },
+          { q: "If forest temperature dropped to -40°C for months, what would happen?", opts: ["Nothing", "Many organisms would die or migrate", "Only plants affected", "Immediate recovery"], ans: 1, outcome: "STS-K.2", explain: "Temperature is a critical abiotic factor affecting nearly all organisms." }
+        ], replacement: [
+          { q: "A rotting log is an example of a:", opts: ["Biotic factor", "Abiotic factor", "Neither", "Only abiotic when fully decomposed"], ans: 0, outcome: "STS-K.1", explain: "A rotting log was once a living tree — still biotic." },
+          { q: "Which is biotic in a lake?", opts: ["Dissolved oxygen", "Cattail plant", "Water temperature", "Rocks"], ans: 1, outcome: "STS-K.1", explain: "A cattail plant is a living organism — biotic." },
+          { q: "Wind is classified as:", opts: ["Biotic", "Abiotic", "Both", "Neither"], ans: 1, outcome: "STS-K.1", explain: "Wind is non-living — abiotic." },
+          { q: "A fallen feather on the ground is:", opts: ["Abiotic — no longer alive", "Biotic — came from a living organism", "Neither", "Abiotic — cannot move"], ans: 1, outcome: "STS-K.1", explain: "Feathers come from a living bird — biotic." },
+          { q: "Which ecosystem has permafrost and no trees?", opts: ["Desert", "Grassland", "Tundra", "Forest"], ans: 2, outcome: "STS-K.2", explain: "Tundra has permafrost that prevents tree growth." },
+          { q: "A habitat provides an organism with:", opts: ["Only food", "Only shelter", "Food, water, shelter, and space", "Only water"], ans: 2, outcome: "STS-K.1", explain: "Habitats provide all essentials." },
+          { q: "Rocks, water, and air in a garden are:", opts: ["Biotic", "Abiotic", "Both", "Living things"], ans: 1, outcome: "STS-K.1", explain: "All non-living — abiotic." },
+          { q: "What would happen to plants without sunlight?", opts: ["Grow faster", "Eventually die — photosynthesis needs sunlight", "Eat soil instead", "Nothing"], ans: 1, outcome: "STS-K.2", explain: "Plants need sunlight for photosynthesis." }
+        ], remediation: {
+          "STS-K.1": {
+            video: "https://www.youtube.com/embed/oV15rlBEbYA", questions: [
+              { q: "Living things in an ecosystem are called:", opts: ["Abiotic factors", "Biotic factors", "Chemical factors", "Weather factors"], ans: 1, explain: "Living things = biotic factors." },
+              { q: "Sunlight, water, and temperature are:", opts: ["Biotic", "Abiotic", "Food sources", "Habitats"], ans: 1, explain: "Non-living elements — abiotic." },
+              { q: "A tree, mushroom, and deer are all:", opts: ["Abiotic", "Biotic", "Non-living", "Minerals"], ans: 1, explain: "All living organisms — biotic." },
+              { q: "Which is NOT abiotic?", opts: ["Rain", "Wind", "Grass", "Rocks"], ans: 2, explain: "Grass is living — biotic." },
+              { q: "An ecosystem includes:", opts: ["Only living things", "Only non-living things", "Both living and non-living things interacting", "Only large animals"], ans: 2, explain: "Both biotic AND abiotic." },
+              { q: "A dead log is biotic because:", opts: ["Made of rock", "Was once a living tree", "Contains water", "On the ground"], ans: 1, explain: "Once-living = still biotic." }
+            ]
+          }, "STS-K.2": {
+            video: "https://www.youtube.com/embed/7ll-UrjQFIQ", questions: [
+              { q: "The LARGEST ecosystem on Earth is:", opts: ["Forest", "Grassland", "Desert", "Marine (ocean)"], ans: 3, explain: "Oceans cover over 70% of Earth." },
+              { q: "Different organisms live in different ecosystems because:", opts: ["They choose", "Different abiotic conditions", "All can live anywhere", "Scientists place them"], ans: 1, explain: "Abiotic conditions determine survival." },
+              { q: "What makes a desert different from a forest?", opts: ["More animals", "Much less precipitation", "More plants", "No difference"], ans: 1, explain: "Precipitation is the key difference." },
+              { q: "If a lake dried up, fish would:", opts: ["Adapt to land", "Die — water is essential", "Nothing", "Move to a forest"], ans: 1, explain: "Fish need water to survive." },
+              { q: "Tundra has few trees because:", opts: ["Animals eat them", "Permafrost prevents deep roots", "Too much rain", "Too warm"], ans: 1, explain: "Permafrost prevents root growth." },
+              { q: "During drought, which organisms are affected FIRST?", opts: ["Only birds", "Only large animals", "Plants — they need water for photosynthesis", "None"], ans: 2, explain: "Plants rely directly on water." }
+            ]
+          }
+        }
+      }, quiz2: {
+        primary: [
+          { q: "The original source of energy for MOST ecosystems is:", opts: ["Water", "Soil nutrients", "The Sun", "Decomposers"], ans: 2, outcome: "STS-K.2", explain: "Nearly all energy comes from the Sun via photosynthesis." },
+          { q: "An organism that makes its own food is a:", opts: ["Consumer", "Decomposer", "Scavenger", "Producer"], ans: 3, outcome: "STS-K.2", explain: "Producers (autotrophs) make their own food." },
+          { q: "In: Grass→Grasshopper→Frog→Snake→Hawk, the Frog is a:", opts: ["Producer", "Primary consumer", "Secondary consumer", "Tertiary consumer"], ans: 2, outcome: "STS-K.2", explain: "Frog eats the grasshopper (primary consumer) = secondary consumer." },
+          { q: "Decomposers:", opts: ["Hunt animals", "Produce food", "Break down dead organisms and return nutrients to soil", "Only eat plants"], ans: 2, outcome: "STS-K.2", explain: "They recycle nutrients back into the ecosystem." },
+          { q: "A food WEB differs from a food CHAIN because:", opts: ["It only has producers", "It shows interconnected food chains", "It excludes decomposers", "A chain is more realistic"], ans: 1, outcome: "STS-K.2", explain: "Food webs show overlapping, interconnected chains." },
+          { q: "10% Rule: Producers have 10,000 kcal. Secondary consumers get:", opts: ["1,000 kcal", "100 kcal", "10 kcal", "5,000 kcal"], ans: 1, outcome: "STS-K.2", explain: "10,000→1,000 (primary)→100 (secondary)." },
+          { q: "If all rabbits disappeared from a grassland:", opts: ["Nothing", "Grass ↑ and rabbit-predators ↓", "Only grass affected", "Hawks ↑"], ans: 1, outcome: "STS-K.2", explain: "Without rabbits: grass unchecked, predators decline." },
+          { q: "Which energy pyramid level has MOST energy?", opts: ["Tertiary consumers", "Secondary consumers", "Primary consumers", "Producers (bottom)"], ans: 3, outcome: "STS-K.2", explain: "Producers capture energy directly from the Sun." }
+        ], replacement: [
+          { q: "Which organisms capture sunlight FIRST?", opts: ["Consumers", "Producers", "Decomposers", "Predators"], ans: 1, outcome: "STS-K.2", explain: "Producers capture solar energy through photosynthesis." },
+          { q: "Another word for a producer is:", opts: ["Heterotroph", "Autotroph", "Herbivore", "Carnivore"], ans: 1, outcome: "STS-K.2", explain: "Autotroph = 'self-feeder'." },
+          { q: "In: Algae→Small Fish→Big Fish→Shark, small fish is a:", opts: ["Producer", "Primary consumer", "Secondary consumer", "Decomposer"], ans: 1, outcome: "STS-K.2", explain: "Eats algae (producer) = primary consumer." },
+          { q: "Without decomposers:", opts: ["Nothing", "Dead matter piles up, nutrients not recycled", "Plants grow faster", "Animals decompose themselves"], ans: 1, outcome: "STS-K.2", explain: "Nutrient cycle would stop." },
+          { q: "Food chains always begin with:", opts: ["A predator", "A consumer", "A producer", "A decomposer"], ans: 2, outcome: "STS-K.2", explain: "Producers capture energy from the Sun." },
+          { q: "Why does only 10% of energy pass to the next level?", opts: ["Animals waste food", "90% is used for life processes and lost as heat", "Energy is destroyed", "Sun doesn't provide enough"], ans: 1, outcome: "STS-K.2", explain: "90% used for movement, growth, body heat." },
+          { q: "If wolves were removed, deer would:", opts: ["Decrease", "Increase without predators", "Stay same", "Leave the forest"], ans: 1, outcome: "STS-K.2", explain: "Without predators, population grows unchecked." },
+          { q: "Why are there fewer top predators than producers?", opts: ["Predators eat less", "Not enough energy to support many top predators", "Predators don't need energy", "Producers reproduce slowly"], ans: 1, outcome: "STS-K.2", explain: "Energy decreases at each level." }
+        ], remediation: {
+          "STS-K.2": {
+            video: "https://www.youtube.com/embed/MuKs9o1s8h8", questions: [
+              { q: "Energy enters most ecosystems from:", opts: ["Wind", "Moon", "Sun", "Volcanoes"], ans: 2, explain: "The Sun is the primary energy source." },
+              { q: "A rabbit eats grass. The rabbit is a:", opts: ["Producer", "Primary consumer", "Decomposer", "Tertiary consumer"], ans: 1, explain: "Eats a producer = primary consumer." },
+              { q: "Arrows in a food chain show:", opts: ["Which animal is bigger", "Direction energy flows", "Where animals sleep", "How fast animals move"], ans: 1, explain: "Arrows = direction of energy flow." },
+              { q: "Decomposers are important because they:", opts: ["Hunt prey", "Return nutrients to soil", "Produce oxygen", "Create sunlight"], ans: 1, explain: "They recycle nutrients." },
+              { q: "The 10% Rule means:", opts: ["10% of organisms survive", "10% of energy passes to next level", "Need 10 species", "Chains have 10 links"], ans: 1, explain: "Only ~10% of energy passes up." },
+              { q: "Which has more energy — a hawk or grass?", opts: ["Hawk", "Grass", "Equal", "Neither"], ans: 1, explain: "Grass (producer) has the MOST energy." }
+            ]
+          }
+        }
+      }
+    };
+
+    // ===== ADAPTIVE QUIZ ENGINE =====
+    const quizState = {};
+    function initQuiz(qid) {
+      const bank = quizBanks[qid];
+      quizState[qid] = { currentQ: 0, questions: bank.primary.map((q, i) => ({ ...q, idx: i, isReplacement: false, strikes: 0 })), score: 0, answered: 0, total: bank.primary.length, inRemediation: false, remOutcome: null, remQuestions: [], remIdx: 0, remCorrect: 0 };
+      renderAQ(qid);
+    }
+    function renderAQ(qid) {
+      const s = quizState[qid]; const area = document.getElementById(qid.replace('quiz', 'quiz') + '-area');
+      if (s.inRemediation) { renderRem(qid); return; }
+      if (s.currentQ >= s.total) { showResults(qid); return; }
+      const q = s.questions[s.currentQ]; const letters = ['A', 'B', 'C', 'D'];
+      const pct = Math.round(s.currentQ / s.total * 100);
+      area.innerHTML = `<div class="quiz-view active"><div class="quiz-progress"><div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div><div class="quiz-progress-text">Question ${s.currentQ + 1} of ${s.total}</div></div><div class="quiz-question-wrap"><div class="question-card"><div class="q-outcome">${q.outcome}</div><div class="q-text">${q.q}</div><div class="options">${q.opts.map((o, j) => `<button class="option-btn" onclick="pickAns('${qid}',${j})"><span class="option-letter">${letters[j]}</span>${o}</button>`).join('')}</div><div class="feedback-box" id="${qid}-fb"></div><div class="quiz-nav"><button class="quiz-next-btn" id="${qid}-next" onclick="nextQ('${qid}')">Next →</button></div></div></div></div>`;
+    }
+    function pickAns(qid, oi) {
+      const s = quizState[qid], q = s.questions[s.currentQ], area = document.getElementById(qid + '-area');
+      const btns = area.querySelectorAll('.option-btn'); if (btns[0].classList.contains('disabled')) return;
+      btns.forEach(b => b.classList.add('disabled'));
+      const fb = document.getElementById(qid + '-fb'), nb = document.getElementById(qid + '-next');
+      if (oi === q.ans) { btns[oi].classList.add('correct-answer'); fb.className = 'feedback-box show correct'; fb.textContent = '✅ Correct! ' + q.explain; s.score++; s.answered++; nb.classList.add('show'); }
+      else {
+        btns[oi].classList.add('wrong-answer'); btns[q.ans].classList.add('correct-answer'); q.strikes++; s.answered++;
+        if (q.strikes === 1 && !q.isReplacement) { const rep = quizBanks[qid].replacement[q.idx]; if (rep) { fb.className = 'feedback-box show wrong'; fb.innerHTML = '❌ ' + q.explain + '<br><br>⚡ <strong>Let\'s try a similar question…</strong>'; s.questions[s.currentQ] = { ...rep, idx: q.idx, isReplacement: true, strikes: 0 }; s.answered--; setTimeout(() => renderAQ(qid), 2200); return; } }
+        else if ((q.strikes >= 1 && q.isReplacement) || q.strikes >= 2) { const oc = q.outcome, bk = quizBanks[qid].remediation[oc]; if (bk) { fb.className = 'feedback-box show wrong'; fb.innerHTML = '❌ ' + q.explain + '<br><br>📖 <strong>Time for a mini-lesson! Watch a video and answer 3 questions.</strong>'; setTimeout(() => { s.inRemediation = true; s.remOutcome = oc; s.remCorrect = 0; pickRemQ(qid); renderAQ(qid); }, 2800); return; } }
+        fb.className = 'feedback-box show wrong'; fb.textContent = '❌ ' + q.explain; nb.classList.add('show');
+      }
+    }
+    function pickRemQ(qid) { const s = quizState[qid], pool = quizBanks[qid].remediation[s.remOutcome].questions; s.remQuestions = [...pool].sort(() => Math.random() - .5).slice(0, 3); s.remIdx = 0; s.remCorrect = 0; }
+    function renderRem(qid) {
+      const s = quizState[qid], area = document.getElementById(qid + '-area'), bk = quizBanks[qid].remediation[s.remOutcome];
+      if (s.remIdx === 0) { area.innerHTML = `<div class="remediation-view active"><div class="remediation-header"><h2>📖 Mini-Lesson: ${s.remOutcome}</h2><p>Watch this video, then answer 3 questions correctly to continue.</p></div><div class="glass-card"><div class="video-wrap"><iframe src="${bk.video}" title="Remediation" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe></div></div><div style="text-align:center;margin-top:20px"><button class="nav-btn primary" onclick="startRemQ('${qid}')">I've Watched — Start Questions →</button></div></div>`; return; }
+      renderRemQ(qid);
+    }
+    function startRemQ(qid) { quizState[qid].remIdx = 1; renderRemQ(qid); }
+    function renderRemQ(qid) {
+      const s = quizState[qid], q = s.remQuestions[s.remCorrect]; if (!q) { pickRemQ(qid); renderRemQ(qid); return; }
+      const area = document.getElementById(qid + '-area'), letters = ['A', 'B', 'C', 'D'];
+      area.innerHTML = `<div class="remediation-view active"><div class="remediation-header"><h2>📖 Mini-Lesson: ${s.remOutcome}</h2><p>Get all 3 correct to return! (${s.remCorrect}/3)</p></div><div class="question-card"><div class="q-outcome">${s.remOutcome} — Remediation</div><div class="q-text">${q.q}</div><div class="options">${q.opts.map((o, j) => `<button class="option-btn" onclick="pickRemAns('${qid}',${j})"><span class="option-letter">${letters[j]}</span>${o}</button>`).join('')}</div><div class="feedback-box" id="${qid}-rfb"></div><div class="quiz-nav"><button class="quiz-next-btn" id="${qid}-rnxt" onclick="nextRemQ('${qid}')">Next →</button></div></div></div>`;
+    }
+    function pickRemAns(qid, oi) {
+      const s = quizState[qid], q = s.remQuestions[s.remCorrect], area = document.getElementById(qid + '-area');
+      const btns = area.querySelectorAll('.option-btn'); if (btns[0].classList.contains('disabled')) return;
+      btns.forEach(b => b.classList.add('disabled'));
+      const fb = document.getElementById(qid + '-rfb'), nb = document.getElementById(qid + '-rnxt');
+      if (oi === q.ans) { btns[oi].classList.add('correct-answer'); fb.className = 'feedback-box show correct'; fb.textContent = '✅ ' + q.explain; s.remCorrect++; nb.classList.add('show'); if (s.remCorrect >= 3) nb.textContent = 'Return to Quiz ✓'; }
+      else { btns[oi].classList.add('wrong-answer'); btns[q.ans].classList.add('correct-answer'); fb.className = 'feedback-box show wrong'; fb.innerHTML = '❌ ' + q.explain + '<br><br>🔄 <strong>Let\'s try again from the start…</strong>'; setTimeout(() => { s.remCorrect = 0; pickRemQ(qid); s.remIdx = 1; renderRemQ(qid); }, 2200); }
+    }
+    function nextRemQ(qid) { const s = quizState[qid]; if (s.remCorrect >= 3) { s.inRemediation = false; s.remOutcome = null; s.currentQ = 0; s.score = 0; s.answered = 0; s.questions = quizBanks[qid].primary.map((q, i) => ({ ...q, idx: i, isReplacement: false, strikes: 0 })); renderAQ(qid); return; } renderRemQ(qid); }
+    function nextQ(qid) { quizState[qid].currentQ++; renderAQ(qid); }
+    function showResults(qid) {
+      const s = quizState[qid], pct = Math.round(s.score / s.total * 100), pass = pct >= 80, area = document.getElementById(qid + '-area'), ln = qid === 'quiz1' ? 1 : 2;
+      if (pass) { localStorage.setItem('eco-lesson' + ln + '-passed', 'true'); localStorage.setItem('eco-lesson' + ln + '-score', s.score); updateLock(); updateProgress(); }
+      let bh = '';
+      if (pass) { bh = (ln === 1 ? `<button class="results-btn primary" onclick="goTo('home')">Continue to Lesson 2 →</button>` : `<button class="results-btn primary" onclick="goTo('home')">🎉 Back to Home</button>`) + `<button class="results-btn" onclick="initQuiz('${qid}')">🔄 Retake</button>`; }
+      else { bh = `<button class="results-btn primary" onclick="goTo('lesson${ln}')">📖 Review Lesson</button><button class="results-btn" onclick="initQuiz('${qid}')">🔄 Retry</button>`; }
+      area.innerHTML = `<div class="quiz-results-view active"><div class="score-circle ${pass ? 'pass' : 'fail'}">${pct}%</div><p class="quiz-msg">${pass ? '🎉 Excellent! You\'ve mastered this lesson!' : '📖 You need 80% to unlock the next lesson.'}</p><p class="quiz-msg-sub">${s.score}/${s.total} (${pct}%)${pass ? '' : ' — Need ' + (Math.ceil(s.total * .8))}</p><div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">${bh}</div></div>`;
+    }
+
+    // ===== IMAGE MODAL =====
+    let activePop = null;
+    function openModal(eco) { const d = ecoData[eco]; document.getElementById('modalImg').src = d.img; document.getElementById('modalTitle').textContent = d.title; document.getElementById('vocabTags').innerHTML = d.tags.map((t, i) => `<div class="vocab-tag" style="left:${t.x};top:${t.y}" onclick="togglePop(event,${i},'${eco}')">${t.label}<div class="vocab-popover" id="pop-${eco}-${i}"><h4>${t.label}</h4><p>${t.desc}</p></div></div>`).join(''); document.getElementById('imgModal').classList.add('show'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { document.getElementById('imgModal').classList.remove('show'); document.body.style.overflow = ''; activePop = null; }
+    function togglePop(e, i, eco) { e.stopPropagation(); const p = document.getElementById('pop-' + eco + '-' + i); if (activePop && activePop !== p) activePop.classList.remove('show'); p.classList.toggle('show'); activePop = p.classList.contains('show') ? p : null; }
+    document.getElementById('imgModal').addEventListener('click', function (e) { if (e.target === this) closeModal(); if (activePop && !e.target.closest('.vocab-tag')) { activePop.classList.remove('show'); activePop = null; } });
+
+    // ===== NAVIGATION =====
+    function goTo(page) {
+      if ((page === 'lesson2' || page === 'lesson2-quiz') && !localStorage.getItem('eco-lesson1-passed')) return;
+      document.querySelectorAll('.lesson-page').forEach(p => p.classList.remove('active'));
+      const el = document.getElementById('page-' + page); if (el) el.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => { n.classList.remove('active'); if (n.dataset.page === page) n.classList.add('active'); });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (window.innerWidth <= 900) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('show'); }
+      if (page === 'lesson1-quiz') initQuiz('quiz1');
+      if (page === 'lesson2-quiz') initQuiz('quiz2');
+    }
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('show'); }
+    function toggleTheme() { document.body.classList.toggle('light'); const l = document.body.classList.contains('light'); document.getElementById('themeBtn').innerHTML = l ? '🌙 Dark' : '☀️ Light'; localStorage.setItem('eco-theme', l ? 'light' : 'dark'); }
+    function toggleExpand(btn) { btn.classList.toggle('open'); btn.nextElementSibling.classList.toggle('open'); }
+
+    // ===== LOCK STATE =====
+    function updateLock() {
+      const l1 = localStorage.getItem('eco-lesson1-passed'), l2 = localStorage.getItem('eco-lesson2-passed');
+      document.querySelectorAll('.nav-item').forEach(n => {
+        const pg = n.dataset.page;
+        if (pg === 'lesson2' || pg === 'lesson2-quiz') n.classList.toggle('locked', !l1);
+        if (pg === 'lesson1' && l1) n.classList.add('completed'); if (pg === 'lesson1-quiz' && l1) n.classList.add('completed');
+        if (pg === 'lesson2' && l2) n.classList.add('completed'); if (pg === 'lesson2-quiz' && l2) n.classList.add('completed');
+      });
+      const c1 = document.getElementById('homeCard1'), c2 = document.getElementById('homeCard2');
+      if (l1) { c1.classList.add('completed'); c1.querySelector('.card-btn').textContent = 'Review Lesson ✓'; c2.classList.remove('locked'); c2.querySelector('.card-btn').textContent = 'Start Lesson →'; }
+      if (l2) { c2.classList.add('completed'); c2.querySelector('.card-btn').textContent = 'Review Lesson ✓'; }
+    }
+    function updateProgress() { let d = 0; if (localStorage.getItem('eco-lesson1-passed')) d++; if (localStorage.getItem('eco-lesson2-passed')) d++; document.getElementById('progressBar').style.width = Math.round(d / 2 * 100) + '%'; }
+
+    // ===== INIT =====
+    (function () { if (localStorage.getItem('eco-theme') === 'light') document.body.classList.add('light'); if (document.body.classList.contains('light')) document.getElementById('themeBtn').innerHTML = '🌙 Dark'; updateLock(); updateProgress(); })();
+  </script>
+</body>
+
+</html>
