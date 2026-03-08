@@ -3,256 +3,896 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grade 7 Science — Interactive Learning Platform</title>
-  <meta name="description" content="Interactive mastery-based Grade 7 Science lessons aligned to the Alberta Curriculum. Five units covering Ecosystems, Plants, Heat, Structures, and Planet Earth.">
+  <title>Unit E: Planet Earth — Grade 7 Science</title>
+  <meta name="description" content="Grade 7 Science — Planet Earth. Explore Earth's layers, rock types, the rock cycle, and mineral identification.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="shared.css">
-  <style>
-    /* Landing-page-only overrides */
-    .landing-wrap{max-width:1200px;margin:0 auto;padding:0 24px 60px}
-
-    .landing-topbar{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;max-width:1200px;margin:0 auto}
-    .landing-logo{display:flex;align-items:center;gap:10px}
-    .landing-logo .logo-icon{font-size:28px}
-    .landing-logo h2{font-size:1.1rem;color:var(--accent);letter-spacing:-.5px}
-    .landing-logo span{display:block;font-family:'Inter';font-size:.7rem;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
-
-    .landing-progress{display:flex;align-items:center;gap:12px;font-size:.85rem;color:var(--text3)}
-    .landing-progress-bar{width:160px;height:8px;background:var(--card);border-radius:20px;overflow:hidden}
-    .landing-progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#4ade80,#38bdf8,#a78bfa);transition:width .5s ease}
-
-    .unit-card{border-top:3px solid var(--accent)}
-
-    /* Accent overrides per card */
-    .unit-card[data-unit="a"]{--accent:#4ade80;--accent2:#22c55e;border-top-color:#4ade80}
-    .unit-card[data-unit="b"]{--accent:#f59e0b;--accent2:#d97706;border-top-color:#f59e0b}
-    .unit-card[data-unit="c"]{--accent:#f97316;--accent2:#ea580c;border-top-color:#f97316}
-    .unit-card[data-unit="d"]{--accent:#38bdf8;--accent2:#0ea5e9;border-top-color:#38bdf8}
-    .unit-card[data-unit="e"]{--accent:#a78bfa;--accent2:#8b5cf6;border-top-color:#a78bfa}
-
-    body.light .unit-card[data-unit="a"]{--accent:#16a34a;--accent2:#15803d;border-top-color:#16a34a}
-    body.light .unit-card[data-unit="b"]{--accent:#b45309;--accent2:#92400e;border-top-color:#b45309}
-    body.light .unit-card[data-unit="c"]{--accent:#c2410c;--accent2:#9a3412;border-top-color:#c2410c}
-    body.light .unit-card[data-unit="d"]{--accent:#0284c7;--accent2:#0369a1;border-top-color:#0284c7}
-    body.light .unit-card[data-unit="e"]{--accent:#7c3aed;--accent2:#6d28d9;border-top-color:#7c3aed}
-
-    .stats-bar{display:flex;justify-content:center;gap:32px;margin:0 auto 40px;flex-wrap:wrap}
-    .stat{text-align:center}
-    .stat .stat-num{font-size:2rem;font-weight:800;font-family:'Outfit';color:var(--accent)}
-    .stat .stat-label{font-size:.78rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
-
-    .footer{text-align:center;padding:40px 20px 20px;color:var(--text3);font-size:.8rem}
-    .footer a{color:var(--accent)}
-  </style>
+  <link rel="stylesheet" href="../shared.css">
 </head>
-<body>
+<body data-unit-key="e" data-unit="e">
 
-  <!-- SIGN-IN OVERLAY -->
-  <div class="signin-overlay" id="signinOverlay">
-    <div class="signin-card">
-      <div style="font-size:3rem;margin-bottom:12px">🔬</div>
-      <h2>Welcome, Scientist!</h2>
-      <p>Enter your name and email to track your progress across all units.</p>
-      <button class="signin-btn" onclick="googleSignIn()">Get Started →</button>
+  <div class="signin-overlay" id="signinOverlay"><div class="signin-card"><div style="font-size:3rem;margin-bottom:12px">🌍</div><h2>Welcome, Scientist!</h2><p>Enter your name and email to save your progress.</p><button class="signin-btn" onclick="googleSignIn()">Get Started →</button></div></div>
+  <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+  <div class="app">
+    <nav class="sidebar" id="sidebar">
+      <div class="logo"><div class="logo-icon">🌍</div><div><h2>Planet Earth</h2><span>Unit E</span></div></div>
+      <div class="nav-item active" data-page="home" onclick="goTo('home')"><div class="nav-num"><span>🏠</span></div> Home</div>
+      <div class="nav-item" data-page="lesson1" onclick="goTo('lesson1')"><div class="nav-num"><span>1</span></div> Earth's Layers</div>
+      <div class="nav-item" data-page="lesson1-quiz" onclick="goTo('lesson1-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 1 Quiz</div>
+      <div class="nav-item locked" data-page="lesson2" onclick="goTo('lesson2')"><div class="nav-num"><span>2</span></div> Plate Tectonics</div>
+      <div class="nav-item locked" data-page="lesson2-quiz" onclick="goTo('lesson2-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 2 Quiz</div>
+      <div class="nav-item locked" data-page="lesson3" onclick="goTo('lesson3')"><div class="nav-num"><span>3</span></div> Rock Cycle</div>
+      <div class="nav-item locked" data-page="lesson3-quiz" onclick="goTo('lesson3-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 3 Quiz</div>
+      <div class="nav-item locked" data-page="lesson4" onclick="goTo('lesson4')"><div class="nav-num"><span>4</span></div> Weathering & Erosion</div>
+      <div class="nav-item locked" data-page="lesson4-quiz" onclick="goTo('lesson4-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 4 Quiz</div>
+      <div class="nav-item locked" data-page="lesson5" onclick="goTo('lesson5')"><div class="nav-num"><span>5</span></div> Fossils & Time</div>
+      <div class="nav-item locked" data-page="lesson5-quiz" onclick="goTo('lesson5-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 5 Quiz</div>
+      <div class="nav-item locked" data-page="lesson6" onclick="goTo('lesson6')"><div class="nav-num"><span>6</span></div> Geological Resources</div>
+      <div class="nav-item locked" data-page="lesson6-quiz" onclick="goTo('lesson6-quiz')"><div class="nav-num"><span>📝</span></div> Lesson 6 Quiz</div>
+      <div class="nav-item locked" data-page="lesson7" onclick="goTo('lesson7')"><div class="nav-num"><span>7</span></div> Performance Task</div>
+      <div class="nav-item" id="teacherNav" data-page="teacher" onclick="goTo('teacher')" style="display:none"><div class="nav-num"><span>📊</span></div> Dashboard</div>
+    </nav>
+
+    <div class="main">
+      <div class="topbar">
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <a href="../index.html" class="back-to-units">← All Units</a>
+        <div class="top-actions">
+          <span id="studentDisplay" style="font-size:.85rem;color:var(--text3)"></span>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+        </div>
+      </div>
+
+      <!-- HOME -->
+      <div class="lesson-page active" id="page-home">
+        <div class="welcome"><h1>🌍 Planet Earth</h1><p>Journey to the centre of our planet! Explore Earth's layers, discover how rocks form and change, and learn how scientists study the ground beneath your feet.</p></div>
+        <div class="home-grid">
+          <div class="lesson-card" id="homeCard1" onclick="goTo('lesson1')"><span class="card-icon">🪨</span><h3>Lesson 1: Earth's Layers, Rocks & Minerals</h3><p>Explore what's beneath the surface and how rocks are formed and classified</p><div class="card-btn">Start Lesson →</div></div>
+          <div class="lesson-card locked" id="homeCard2" onclick="goTo('lesson2')"><span class="card-icon">🌋</span><h3>Lesson 2: Plate Tectonics</h3><p>How Earth's plates move, earthquakes, volcanoes & mountain building</p><div class="card-btn">🔒 Locked</div></div>
+          <div class="lesson-card locked" id="homeCard3" onclick="goTo('lesson3')"><span class="card-icon">🔄</span><h3>Lesson 3: The Rock Cycle</h3><p>How rocks transform between igneous, sedimentary & metamorphic</p><div class="card-btn">🔒 Locked</div></div>
+          <div class="lesson-card locked" id="homeCard4" onclick="goTo('lesson4')"><span class="card-icon">🌬️</span><h3>Lesson 4: Weathering & Erosion</h3><p>How wind, water, and ice shape Earth's surface over time</p><div class="card-btn">🔒 Locked</div></div>
+          <div class="lesson-card locked" id="homeCard5" onclick="goTo('lesson5')"><span class="card-icon">🧬</span><h3>Lesson 5: Fossils & Geological Time</h3><p>Using fossils to read Earth's history & understand deep time</p><div class="card-btn">🔒 Locked</div></div>
+          <div class="lesson-card locked" id="homeCard6" onclick="goTo('lesson6')"><span class="card-icon">⛏️</span><h3>Lesson 6: Geological Resources</h3><p>Mining, exploration & Alberta's geological resources</p><div class="card-btn">🔒 Locked</div></div>
+          <div class="lesson-card locked" id="homeCard7" onclick="goTo('lesson7')"><span class="card-icon">🏆</span><h3>Lesson 7: Performance Task</h3><p>Interpret a geological cross-section & explain Earth's history</p><div class="card-btn">🔒 Locked</div></div>
+        </div>
+
+      <!-- LESSON 1 -->
+      <div class="lesson-page" id="page-lesson1">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 1</div>
+          <h1 class="lesson-title">Earth's Layers, Rocks & Minerals</h1>
+          <p class="lesson-subtitle">Discover what's inside the Earth, how scientists study its layers, and how rocks are classified using the rock cycle.</p>
+        </div>
+
+        <!-- LEARNING TARGETS & SUCCESS CRITERIA -->
+        <div class="glass-card content">
+          <div style="margin-bottom:8px"><span class="outcome-tag">7-E.1</span><span class="outcome-tag">7-E.2</span></div>
+          <h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3>
+          <ul class="styled-list">
+            <li>I can describe the layers of Earth and explain what each layer is made of.</li>
+            <li>I can explain how scientists study Earth's interior without seeing it directly.</li>
+            <li>I can classify rocks as igneous, sedimentary, or metamorphic and explain how each type forms.</li>
+            <li>I can describe the rock cycle and how rocks change from one type to another.</li>
+          </ul>
+          <h3 class="section-title" style="margin-top:20px"><span class="icon">✅</span> Success Criteria</h3>
+          <p style="font-size:.85rem;color:var(--text3);margin-bottom:8px">By the end of this lesson, you should be able to check off all of these:</p>
+          <ul class="success-criteria">
+            <li>I can name and order Earth's 4 main layers from surface to centre.</li>
+            <li>I can describe at least one way scientists learn about Earth's interior.</li>
+            <li>I can tell the difference between a rock and a mineral.</li>
+            <li>I can identify the 3 rock types and explain how each forms.</li>
+            <li>I can draw or describe the rock cycle showing how rocks change.</li>
+          </ul>
+        </div>
+
+        <!-- KEY VOCABULARY -->
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3>
+          <p style="font-size:.85rem;color:var(--text3);margin-bottom:8px">Hover over each term to see its definition. You'll encounter these throughout the lesson.</p>
+          <div class="vocab-glossary">
+            <span class="vocab-chip">🪨 Mineral<span class="vocab-def"><strong>Mineral:</strong> A naturally occurring, non-living solid with a specific chemical makeup and crystal structure. Example: quartz, feldspar.</span></span>
+            <span class="vocab-chip">🏔️ Rock<span class="vocab-def"><strong>Rock:</strong> A solid made of one or more minerals. Rocks are classified by how they form.</span></span>
+            <span class="vocab-chip">🌋 Igneous<span class="vocab-def"><strong>Igneous Rock:</strong> Formed when molten rock (magma/lava) cools and hardens. Example: granite, basalt.</span></span>
+            <span class="vocab-chip">🏖️ Sedimentary<span class="vocab-def"><strong>Sedimentary Rock:</strong> Formed when small particles (sediment) are compressed and cemented together over time. Example: sandstone, limestone.</span></span>
+            <span class="vocab-chip">♨️ Metamorphic<span class="vocab-def"><strong>Metamorphic Rock:</strong> Formed when existing rocks are changed by extreme heat and pressure deep underground. Example: marble, slate.</span></span>
+            <span class="vocab-chip">🔄 Rock Cycle<span class="vocab-def"><strong>Rock Cycle:</strong> The continuous process by which rocks change from one type to another through melting, cooling, weathering, erosion, compaction, and heat/pressure.</span></span>
+            <span class="vocab-chip">🌍 Crust<span class="vocab-def"><strong>Crust:</strong> The thin, solid outermost layer of Earth. Includes continental (thicker) and oceanic (thinner) crust.</span></span>
+            <span class="vocab-chip">🔥 Mantle<span class="vocab-def"><strong>Mantle:</strong> The thick, hot layer beneath the crust. Made of semi-solid rock that flows very slowly.</span></span>
+          </div>
+        </div>
+
+        <!-- EARTH'S LAYERS -->
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🌍</span> What's Inside Earth?</h3>
+          <p>If you could slice Earth in half like an apple, you'd see it's made of distinct layers — like a boiled egg with a shell, white, and yolk. Scientists have never drilled to the centre, but they've figured out what's down there using <strong>seismic waves</strong> from earthquakes.</p>
+          <div class="info-grid">
+            <div class="info-box"><span class="emoji">🥚</span><h4>Crust</h4><p><strong>5–70 km thick.</strong> The thin, rocky outer layer we live on. Thinnest under oceans, thickest under mountains like the Canadian Rockies.</p></div>
+            <div class="info-box"><span class="emoji">🔥</span><h4>Mantle</h4><p><strong>~2,900 km thick.</strong> Hot, semi-solid rock that flows slowly. Convection currents here drive plate movement.</p></div>
+            <div class="info-box"><span class="emoji">💧</span><h4>Outer Core</h4><p><strong>~2,200 km thick.</strong> Liquid iron and nickel. Creates Earth's magnetic field that protects us from solar radiation.</p></div>
+            <div class="info-box"><span class="emoji">⚡</span><h4>Inner Core</h4><p><strong>~1,200 km radius.</strong> Solid iron and nickel — incredibly hot (~5,400°C) but kept solid by extreme pressure.</p></div>
+          </div>
+          <div class="key-point"><p>💡 <strong>Alberta Connection:</strong> The Canadian Rockies formed when tectonic plates collided, pushing crust upward. The rocks in Banff and Jasper contain fossils of ancient sea creatures — evidence that this land was once underwater!</p></div>
+        </div>
+
+        <!-- PAUSE AND CHECK 1 -->
+        <div class="pause-check">
+          <h4>⏸️ Pause and Check</h4>
+          <p>Before moving on, can you answer these?</p>
+          <ul>
+            <li>Which layer of Earth is the thinnest?</li>
+            <li>Why is the inner core solid even though it's the hottest layer?</li>
+            <li>How do scientists know what the inside of Earth looks like if they can't see it?</li>
+          </ul>
+          <button class="reveal-btn" onclick="revealAnswer(this)">👀 Reveal Answers</button>
+          <div class="reveal-answer"><p style="margin-top:8px;font-size:.8rem;color:var(--text3)"><em>Answers: Crust is thinnest · Extreme pressure keeps the inner core solid · Seismic waves from earthquakes reveal the layers</em></p></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">📺</span> Watch: Earth's Layers</h3>
+          <div class="video-label">🎬 Video 1 — It's OK To Be Smart: What's Inside Earth?</div>
+          <div class="video-wrap"><iframe src="https://www.youtube.com/embed/eXiVGEEPQ6c" title="What's Inside Earth?" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+        </div>
+
+        <!-- ROCKS VS MINERALS -->
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">💎</span> Rocks vs. Minerals — What's the Difference?</h3>
+          <table class="compare-table">
+            <thead><tr><th></th><th>Mineral</th><th>Rock</th></tr></thead>
+            <tbody>
+              <tr><td><strong>What?</strong></td><td>A single, naturally occurring substance with a specific chemical formula</td><td>A solid made of <strong>one or more minerals</strong> combined together</td></tr>
+              <tr><td><strong>Example</strong></td><td>Quartz, feldspar, calcite, mica</td><td>Granite (quartz + feldspar + mica), limestone (calcite)</td></tr>
+              <tr><td><strong>Identified by</strong></td><td>Hardness, colour, luster, streak, crystal shape</td><td>How it was formed (igneous, sedimentary, metamorphic)</td></tr>
+              <tr><td><strong>Analogy</strong></td><td>Like a single ingredient (flour, sugar, eggs)</td><td>Like a cake made from ingredients</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- THREE ROCK TYPES -->
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🪨</span> Three Types of Rock</h3>
+          <p>Every rock on Earth falls into one of three categories based on <strong>how it was formed</strong>.</p>
+          <div class="info-grid">
+            <div class="info-box"><span class="emoji">🌋</span><h4>Igneous</h4><p><strong>Formed from cooled magma/lava.</strong> Fast cooling = small crystals (basalt). Slow cooling = large crystals (granite).</p></div>
+            <div class="info-box"><span class="emoji">🏖️</span><h4>Sedimentary</h4><p><strong>Formed from compressed layers of sediment.</strong> Often contains fossils. Examples: sandstone, limestone, shale.</p></div>
+            <div class="info-box"><span class="emoji">♨️</span><h4>Metamorphic</h4><p><strong>Changed by heat & pressure.</strong> Limestone → marble. Shale → slate. Granite → gneiss.</p></div>
+          </div>
+          <div class="key-point"><p>💡 <strong>Alberta Connection:</strong> The hoodoos near Drumheller are made of <strong>sedimentary rock</strong> — layers of sand, silt, and clay deposited millions of years ago. Dinosaur bones found there are preserved in these layers!</p></div>
+          <div class="expandable">
+            <button class="expand-btn" onclick="toggleExpand(this)">🤔 How can you tell rock types apart in the field? <span class="arrow">▼</span></button>
+            <div class="expand-content">
+              <p><strong>Igneous:</strong> Look for crystals or glassy texture. No layers. <strong>Sedimentary:</strong> Look for visible layers, fossils, or grains. Often crumbly. <strong>Metamorphic:</strong> Look for banding, folding, or a shiny/wavy appearance. Very hard.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PAUSE AND CHECK 2 -->
+        <div class="pause-check">
+          <h4>⏸️ Pause and Check</h4>
+          <ul>
+            <li>A rock contains a fossil. What type of rock is it most likely?</li>
+            <li>What's the difference between a rock and a mineral?</li>
+            <li>If granite is put under extreme heat and pressure underground, what type of rock does it become?</li>
+          </ul>
+          <button class="reveal-btn" onclick="revealAnswer(this)">👀 Reveal Answers</button>
+          <div class="reveal-answer"><p style="margin-top:8px;font-size:.8rem;color:var(--text3)"><em>Answers: Sedimentary · A mineral is a single substance; a rock is made of minerals · Metamorphic (gneiss)</em></p></div>
+        </div>
+
+        <!-- ROCK CYCLE -->
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🔄</span> The Rock Cycle</h3>
+          <p>Rocks don't stay the same forever! Over millions of years, rocks are constantly changing from one type to another. This continuous process is called the <span class="vocab" title="The ongoing cycle of rock formation, destruction, and transformation">rock cycle</span>.</p>
+          <div class="glass-card" style="background:var(--card2);padding:20px;text-align:center;margin:16px 0">
+            <p style="font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:12px">The Rock Cycle — Key Processes</p>
+            <div class="info-grid" style="text-align:left">
+              <div class="info-box"><span class="emoji">🌋</span><h4>Melting → Cooling</h4><p>Any rock can melt into magma. When magma cools, it forms <strong>igneous</strong> rock.</p></div>
+              <div class="info-box"><span class="emoji">🌧️</span><h4>Weathering → Compaction</h4><p>Rocks break down into sediment. Layers compress over time into <strong>sedimentary</strong> rock.</p></div>
+              <div class="info-box"><span class="emoji">♨️</span><h4>Heat + Pressure</h4><p>Any rock deep underground can be changed by heat and pressure into <strong>metamorphic</strong> rock.</p></div>
+            </div>
+          </div>
+          <div class="key-point"><p>💡 The rock cycle has <strong>no beginning or end</strong> — rocks can enter the cycle at any point and change into any other type.</p></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">📺</span> Watch: The Rock Cycle</h3>
+          <div class="video-label">🎬 Video 2 — National Geographic: The Rock Cycle</div>
+          <div class="video-wrap"><iframe src="https://www.youtube.com/embed/MCGQ9ue-mKg" title="Rock Cycle Explained" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+        </div>
+
+        <!-- PAUSE AND CHECK 3 -->
+        <div class="pause-check">
+          <h4>⏸️ Pause and Check</h4>
+          <ul>
+            <li>Can a sedimentary rock become an igneous rock? How?</li>
+            <li>What two things change a rock into a metamorphic rock?</li>
+          </ul>
+          <button class="reveal-btn" onclick="revealAnswer(this)">👀 Reveal Answers</button>
+          <div class="reveal-answer"><p style="margin-top:8px;font-size:.8rem;color:var(--text3)"><em>Answers: Yes — it melts into magma, then cools into igneous rock · Heat and pressure</em></p></div>
+        </div>
+
+        <!-- ACTIVITY 1: Earth Layer Builder -->
+        <div class="glass-card content">
+          <div class="activity-section">
+            <div class="activity-header"><span class="act-num">Activity 1</span><span style="font-weight:700;color:var(--text)">Earth Layer Builder</span><span class="outcome-tag">7-E.1</span></div>
+            <p style="color:var(--text2);font-size:.9rem;margin-bottom:4px">Put Earth's layers in order from the surface to the centre, then match each to its key property.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Look back at the "What's Inside Earth?" section above. Remember: we live on the thinnest layer!</div>
+            <div id="layerArea"></div>
+            <div id="layerScore"></div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY 2: Rock Type Classifier -->
+        <div class="glass-card content">
+          <div class="activity-section">
+            <div class="activity-header"><span class="act-num">Activity 2</span><span style="font-weight:700;color:var(--text)">Rock Type Classifier</span><span class="outcome-tag">7-E.2</span></div>
+            <p style="color:var(--text2);font-size:.9rem;margin-bottom:4px">Read the clue for each rock sample and classify it as igneous, sedimentary, or metamorphic.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Remember: igneous = cooled magma/lava, sedimentary = compressed layers/fossils, metamorphic = changed by heat & pressure.</div>
+            <div id="rockArea"></div>
+            <div id="rockScore"></div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY 3: Rock Cycle Navigator -->
+        <div class="glass-card content">
+          <div class="activity-section">
+            <div class="activity-header"><span class="act-num">Activity 3</span><span style="font-weight:700;color:var(--text)">Rock Cycle Navigator</span><span class="outcome-tag">7-E.2</span></div>
+            <p style="color:var(--text2);font-size:.9rem;margin-bottom:4px">Complete the rock cycle by matching each process to the correct transformation.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Think about what PROCESS changes one rock type into another. Melting? Weathering? Heat & pressure?</div>
+            <div id="cycleArea"></div>
+            <div id="cycleScore"></div>
+          </div>
+        </div>
+
+        <!-- CONSTRUCTED RESPONSE -->
+        <div class="constructed-response">
+          <h4>✍️ Explain Your Thinking</h4>
+          <p style="font-size:.9rem;color:var(--text2);margin-bottom:12px">In 2–4 sentences, explain how one type of rock can become a completely different type of rock. Use at least two vocabulary words from this lesson and mention a specific example.</p>
+          <textarea id="crResponse" placeholder="Write your explanation here…" oninput="saveCR()"></textarea>
+          <ul class="cr-checklist">
+            <li><label><input type="checkbox"> I used correct science vocabulary (e.g., igneous, sedimentary, metamorphic, magma)</label></li>
+            <li><label><input type="checkbox"> I explained my thinking clearly</label></li>
+            <li><label><input type="checkbox"> I gave a specific example (e.g., limestone → marble)</label></li>
+          </ul>
+        </div>
+
+        <!-- QUIZ GATE -->
+        <div class="glass-card content" id="l1-gate" style="text-align:center;padding:24px">
+          <p id="l1-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete all 3 activities above to unlock the quiz.</p>
+          <div class="lesson-nav">
+            <button class="nav-btn" onclick="goTo('home')">← Home</button>
+            <button class="nav-btn primary" id="l1-quiz-btn" onclick="goTo('lesson1-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button>
+          </div>
+        </div>
+
+        <!-- REFLECTION -->
+        <div class="reflection-box">
+          <h3>🪞 Lesson Reflection</h3>
+          <p style="font-size:.9rem;color:var(--text2);margin-bottom:12px">Think about what you learned today. What was the most interesting thing you discovered about Earth's interior or rocks? Is there anything you're still unsure about?</p>
+          <textarea id="reflectionText" placeholder="Type your reflection here…" oninput="saveReflection()"></textarea>
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="lesson-page" id="page-lesson1-quiz">
+        <div class="lesson-header"><div class="lesson-num">Lesson 1 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">Two wrong answers on the same topic will trigger a mini-lesson. You need 80% to pass!</p></div>
+        <div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review your learning targets and success criteria. Make sure you can name Earth's layers, tell the 3 rock types apart, and describe the rock cycle.</div>
+        <div id="quiz1-area"></div>
+      </div>
+
+      <!-- LESSON 2: Plate Tectonics -->
+      <div class="lesson-page" id="page-lesson2">
+        <div class="lesson-header"><div class="lesson-num">Lesson 2</div><h1 class="lesson-title">Plate Tectonics & Geological Change</h1><p class="lesson-subtitle">Discover how Earth’s plates move, why earthquakes and volcanoes happen, and how mountains are built.</p></div>
+
+        <div class="glass-card content">
+          <div style="margin-bottom:8px"><span class="outcome-tag">7-E.3</span><span class="outcome-tag">7-E.4</span></div>
+          <h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3>
+          <ul class="styled-list">
+            <li>I can explain the theory of plate tectonics and what drives plate movement.</li>
+            <li>I can describe the 3 types of plate boundaries and what happens at each.</li>
+            <li>I can explain how earthquakes, volcanoes, and mountains are related to plate boundaries.</li>
+            <li>I can describe evidence that supports plate tectonics (continental drift).</li>
+          </ul>
+          <h3 class="section-title" style="margin-top:20px"><span class="icon">✅</span> Success Criteria</h3>
+          <ul class="success-criteria">
+            <li>I can sort examples into convergent, divergent, or transform boundaries.</li>
+            <li>I can match geological events to their plate boundary types.</li>
+            <li>I can explain Wegener’s evidence for continental drift.</li>
+            <li>I can predict what will happen when two plates converge vs. diverge.</li>
+          </ul>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3>
+          <div class="vocab-glossary">
+            <span class="vocab-chip">🌍 Tectonic Plate<span class="vocab-def"><strong>Tectonic Plate:</strong> A massive slab of Earth’s lithosphere that floats on the semi-fluid asthenosphere. There are about 15 major plates.</span></span>
+            <span class="vocab-chip">⬆️ Convergent<span class="vocab-def"><strong>Convergent Boundary:</strong> Where plates push toward each other. Can form mountains, volcanoes, or ocean trenches.</span></span>
+            <span class="vocab-chip">⬇️ Divergent<span class="vocab-def"><strong>Divergent Boundary:</strong> Where plates pull apart. Magma rises to fill the gap, creating new crust (e.g., mid-ocean ridges).</span></span>
+            <span class="vocab-chip">↔️ Transform<span class="vocab-def"><strong>Transform Boundary:</strong> Where plates slide past each other. Causes earthquakes (e.g., San Andreas Fault).</span></span>
+            <span class="vocab-chip">🌋 Subduction<span class="vocab-def"><strong>Subduction:</strong> When a denser plate dives under a lighter plate at a convergent boundary, often causing volcanoes.</span></span>
+            <span class="vocab-chip">🌀 Convection Current<span class="vocab-def"><strong>Convection Current:</strong> Circular flow in the mantle caused by heat from the core — the driving force behind plate movement.</span></span>
+          </div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🌍</span> What Are Tectonic Plates?</h3>
+          <p>Earth’s outer shell (the <strong>lithosphere</strong>) is broken into about 15 large pieces called <strong>tectonic plates</strong>. These plates float on the hot, slowly-flowing mantle below. They move only a few centimetres per year — about as fast as your fingernails grow!</p>
+          <div class="key-point"><p>💡 <strong>Key Idea:</strong> Plates move because of <strong>convection currents</strong> in the mantle. Hot rock near the core rises, cools near the surface, and sinks back down — this circular flow drags the plates along.</p></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">📺</span> Watch: Plate Tectonics</h3>
+          <div class="video-label">🎬 Video — How Earth’s Plates Move</div>
+          <div class="video-wrap"><iframe src="https://www.youtube.com/embed/kwfNGatxUJI" title="Plate Tectonics" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🗺️</span> Three Types of Plate Boundaries</h3>
+          <div class="info-grid">
+            <div class="info-box"><span class="emoji">⬆️</span><h4>Convergent</h4><p>Plates push together → mountains, volcanoes, ocean trenches, subduction zones</p></div>
+            <div class="info-box"><span class="emoji">⬇️</span><h4>Divergent</h4><p>Plates pull apart → new crust forms, mid-ocean ridges, rift valleys</p></div>
+            <div class="info-box"><span class="emoji">↔️</span><h4>Transform</h4><p>Plates slide past each other → earthquakes along fault lines</p></div>
+          </div>
+        </div>
+
+        <div class="pause-check">
+          <h4>⏸️ Pause and Check</h4>
+          <ul>
+            <li>What drives the movement of tectonic plates?</li>
+            <li>What happens at a convergent boundary?</li>
+            <li>How fast do plates typically move?</li>
+          </ul>
+          <button class="reveal-btn" onclick="revealAnswer(this)">👀 Reveal Answers</button>
+          <div class="reveal-answer"><p style="margin-top:8px;font-size:.8rem;color:var(--text3)"><em>Answers: Convection currents in the mantle · Plates push together — can form mountains, volcanoes, or subduction zones · A few centimetres per year (about fingernail growth speed)</em></p></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🌋</span> Earthquakes & Volcanoes</h3>
+          <p>Most earthquakes and volcanoes occur at <strong>plate boundaries</strong>. The “Ring of Fire” around the Pacific Ocean has about 75% of the world’s volcanoes and 90% of its earthquakes!</p>
+          <table class="compare-table">
+            <thead><tr><th>Event</th><th>Boundary Type</th><th>What Happens</th></tr></thead>
+            <tbody>
+              <tr><td>🌋 Volcanic Eruption</td><td>Convergent (subduction)</td><td>Subducting plate melts → magma rises → volcano</td></tr>
+              <tr><td>🌊 Earthquake</td><td>All three, especially transform</td><td>Plates grind, stick, then suddenly slip</td></tr>
+              <tr><td>⛰️ Mountain Building</td><td>Convergent</td><td>Two continental plates collide and crumple upward</td></tr>
+            </tbody>
+          </table>
+          <div class="key-point"><p>💡 <strong>Alberta Connection:</strong> The Canadian Rocky Mountains formed millions of years ago when the Pacific and North American plates collided. The immense pressure crumpled Earth’s crust upward, creating the spectacular peaks we see across western Alberta and British Columbia today. Banff and Jasper sit on these ancient collision zones!</p></div>
+        </div>
+
+        <div class="glass-card content">
+          <h3 class="section-title"><span class="icon">🧩</span> Evidence for Continental Drift</h3>
+          <p>In 1912, Alfred Wegener proposed that continents were once joined in a supercontinent called <strong>Pangaea</strong>. His evidence:</p>
+          <div class="info-grid">
+            <div class="info-box"><span class="emoji">🧩</span><h4>Puzzle Fit</h4><p>Continents fit together like puzzle pieces (Africa + South America)</p></div>
+            <div class="info-box"><span class="emoji">🦕</span><h4>Matching Fossils</h4><p>Same fossil species found on continents now separated by oceans</p></div>
+            <div class="info-box"><span class="emoji">🪨</span><h4>Rock Matches</h4><p>Same rock types and mountain chains line up across continents</p></div>
+            <div class="info-box"><span class="emoji">❄️</span><h4>Glacial Evidence</h4><p>Glacial scratches found in now-tropical areas that were once near the poles</p></div>
+          </div>
+        </div>
+
+        <div class="pause-check">
+          <h4>⏸️ Pause and Check</h4>
+          <ul>
+            <li>What was Pangaea?</li>
+            <li>Name 3 pieces of evidence Wegener used.</li>
+            <li>How did the Rocky Mountains form?</li>
+          </ul>
+          <button class="reveal-btn" onclick="revealAnswer(this)">👀 Reveal Answers</button>
+          <div class="reveal-answer"><p style="margin-top:8px;font-size:.8rem;color:var(--text3)"><em>Answers: A supercontinent where all landmasses were joined together · Puzzle fit of continents, matching fossils, matching rock types · Plate collision (convergent boundary) crumpled the crust upward</em></p></div>
+        </div>
+
+        <!-- ACTIVITIES -->
+        <div class="glass-card content">
+          <div class="activity-section" id="act2-bound">
+            <div class="activity-header"><span class="act-num">Activity 1</span><span style="font-weight:700;color:var(--text)">Boundary Classifier</span><span class="outcome-tag">7-E.3</span></div>
+            <p style="color:var(--text2);font-size:.9rem">Classify each scenario by plate boundary type.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Together = convergent, apart = divergent, sliding = transform.</div>
+            <div id="boundArea"></div>
+            <div id="boundScore"></div>
+          </div>
+        </div>
+
+        <div class="glass-card content">
+          <div class="activity-section" id="act2-drift">
+            <div class="activity-header"><span class="act-num">Activity 2</span><span style="font-weight:700;color:var(--text)">Continental Drift Evidence</span><span class="outcome-tag">7-E.4</span></div>
+            <p style="color:var(--text2);font-size:.9rem">Match each piece of evidence to the correct category.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Think: Is it about shapes, fossils, rocks, or climate?</div>
+            <div id="driftArea"></div>
+            <div id="driftScore"></div>
+          </div>
+        </div>
+
+        <div class="glass-card content">
+          <div class="activity-section" id="act2-geo">
+            <div class="activity-header"><span class="act-num">Activity 3</span><span style="font-weight:700;color:var(--text)">Geological Event Predictor</span><span class="outcome-tag">7-E.3</span></div>
+            <p style="color:var(--text2);font-size:.9rem">Predict what will happen at each plate interaction.</p>
+            <div class="need-help"><strong>💡 Need help?</strong> Think about what happens when plates push, pull, or slide.</div>
+            <div id="geoArea"></div>
+            <div id="geoScore"></div>
+          </div>
+        </div>
+
+        <div class="constructed-response">
+          <h4>✍️ Explain Your Thinking</h4>
+          <p style="font-size:.9rem;color:var(--text2);margin-bottom:12px">A student asks: “If continents move so slowly, how do we know they’ve moved at all?” In 3–4 sentences, explain the evidence for continental drift and plate tectonics. Mention the Rocky Mountains as an Alberta example. Use at least 3 vocabulary words.</p>
+          <textarea id="crResponse2" placeholder="Write your explanation here…" oninput="saveCR2()"></textarea>
+          <ul class="cr-checklist">
+            <li><label><input type="checkbox"> I explained evidence for continental drift</label></li>
+            <li><label><input type="checkbox"> I connected the Rockies to plate boundaries</label></li>
+            <li><label><input type="checkbox"> I used at least 3 vocabulary words correctly</label></li>
+          </ul>
+        </div>
+
+        <div class="glass-card content" id="l2-gate" style="text-align:center;padding:24px">
+          <p id="l2-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete all 3 activities above to unlock the quiz.</p>
+          <div class="lesson-nav">
+            <button class="nav-btn" onclick="goTo('home')">← Home</button>
+            <button class="nav-btn primary" id="l2-quiz-btn" onclick="goTo('lesson2-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button>
+          </div>
+        </div>
+
+        <div class="reflection-box">
+          <h3>🪞 Lesson Reflection</h3>
+          <p style="font-size:.9rem;color:var(--text2);margin-bottom:12px">The continents are still moving today! What do you think Earth will look like in 250 million years? How might the movement of plates affect Alberta in the distant future?</p>
+          <textarea id="reflectionText2" placeholder="Type your reflection here…" oninput="saveReflection2()"></textarea>
+        </div>
+      </div>
+
+      <!-- LESSON 2 QUIZ -->
+      <div class="lesson-page" id="page-lesson2-quiz">
+        <div class="lesson-header"><div class="lesson-num">Lesson 2 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">Two wrong answers on the same topic will trigger a mini-lesson. You need 80% to pass!</p></div>
+        <div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review plate boundary types, geological events, and evidence for continental drift.</div>
+        <div id="quiz2-area"></div>
+      </div>
+
+      <!-- LESSON 3: THE ROCK CYCLE -->
+      <div class="lesson-page" id="page-lesson3">
+        <div class="lesson-header"><div class="lesson-num">Lesson 3</div><h1 class="lesson-title">The Rock Cycle</h1><p class="lesson-subtitle">Discover how rocks continuously transform between igneous, sedimentary, and metamorphic — a never-ending cycle driven by Earth's energy.</p></div>
+        <div class="glass-card content"><div style="margin-bottom:8px"><span class="outcome-tag">E.K.1</span></div><h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3><ul class="styled-list"><li>I can describe how rocks transform between igneous, sedimentary, and metamorphic.</li><li>I can identify the processes that drive the rock cycle (melting, cooling, weathering, heat/pressure).</li><li>I can explain how the rock cycle connects to plate tectonics.</li></ul></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3><div class="vocab-grid"><div class="vocab-chip" tabindex="0"><strong>Rock Cycle</strong><span class="vocab-def">: The continuous process of rocks transforming between igneous, sedimentary, and metamorphic types</span></div><div class="vocab-chip" tabindex="0"><strong>Magma/Lava</strong><span class="vocab-def">: Molten rock — underground = magma, on surface = lava. Cools to form igneous rock.</span></div><div class="vocab-chip" tabindex="0"><strong>Compaction</strong><span class="vocab-def">: When layers of sediment are squeezed together by weight above, forming sedimentary rock</span></div><div class="vocab-chip" tabindex="0"><strong>Metamorphism</strong><span class="vocab-def">: Change in rock caused by extreme heat and pressure without melting</span></div></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🎬</span> Watch: The Rock Cycle</h3><div class="video-container"><iframe src="https://www.youtube.com/embed/cFipNMIgJNo" title="Rock Cycle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🔄</span> Activity 1: Rock Transformer</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Identify what process transforms each rock.</p><div id="l3TransArea"></div><div id="l3TransScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🪨</span> Activity 2: Rock Type Identifier</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Classify each rock by its formation process.</p><div id="l3TypeArea"></div><div id="l3TypeScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">✏️</span> Constructed Response</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Trace the journey of a granite rock (igneous) as it transforms through ALL three rock types. Describe every process it goes through.</p><textarea id="crResponse3" placeholder="Type your answer here…" oninput="saveCR3()"></textarea></div>
+        <div class="glass-card content" id="l3-gate" style="text-align:center;padding:24px"><p id="l3-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete both activities to unlock the quiz.</p><div class="lesson-nav"><button class="nav-btn" onclick="goTo('lesson2-quiz')">← Previous</button><button class="nav-btn primary" id="l3-quiz-btn" onclick="goTo('lesson3-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button></div></div>
+        <div class="reflection-box"><h3>🪞 Lesson Reflection</h3><textarea id="reflectionText3" placeholder="Have you ever seen a rock that looked like it had layers? That could be sedimentary rock! What rocks have you noticed in Alberta?" oninput="saveReflection3()"></textarea></div>
+      </div>
+      <div class="lesson-page" id="page-lesson3-quiz"><div class="lesson-header"><div class="lesson-num">Lesson 3 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">You need 80% to pass!</p></div><div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review the rock cycle processes and rock types.</div><div id="quiz3-area"></div></div>
+
+      <!-- LESSON 4: WEATHERING, EROSION & SEDIMENTATION -->
+      <div class="lesson-page" id="page-lesson4">
+        <div class="lesson-header"><div class="lesson-num">Lesson 4</div><h1 class="lesson-title">Weathering, Erosion & Sedimentation</h1><p class="lesson-subtitle">Learn how wind, water, ice, and chemical reactions break down rocks and reshape Earth's surface — including Alberta's iconic landforms.</p></div>
+        <div class="glass-card content"><div style="margin-bottom:8px"><span class="outcome-tag">E.K.1</span></div><h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3><ul class="styled-list"><li>I can distinguish between mechanical and chemical weathering.</li><li>I can identify agents of erosion (wind, water, ice, gravity).</li><li>I can explain how Alberta landforms formed through weathering and erosion.</li></ul></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3><div class="vocab-grid"><div class="vocab-chip" tabindex="0"><strong>Mechanical Weathering</strong><span class="vocab-def">: Physical breakdown of rock — freeze-thaw, root growth, abrasion</span></div><div class="vocab-chip" tabindex="0"><strong>Chemical Weathering</strong><span class="vocab-def">: Dissolving or altering minerals in rock — acid rain, oxidation, carbonation</span></div><div class="vocab-chip" tabindex="0"><strong>Erosion</strong><span class="vocab-def">: Transport of broken rock by wind, water, ice, or gravity</span></div><div class="vocab-chip" tabindex="0"><strong>Sedimentation</strong><span class="vocab-def">: When transported sediment settles and accumulates in layers</span></div></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🎬</span> Watch: Weathering & Erosion</h3><div class="video-container"><iframe src="https://www.youtube.com/embed/R-Ix55qApeA" title="Weathering" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🌬️</span> Activity 1: Weathering Classifier</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Classify each scenario as mechanical or chemical weathering.</p><div id="l4WeathArea"></div><div id="l4WeathScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🏔️</span> Activity 2: Alberta Landform Matcher</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Match each Alberta landform to the erosion process that created it.</p><div id="l4LandArea"></div><div id="l4LandScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">✏️</span> Constructed Response</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">The Drumheller Badlands and Hoodoos are world-famous landforms in Alberta. Explain how weathering and erosion created them over millions of years.</p><textarea id="crResponse4" placeholder="Type your answer here…" oninput="saveCR4()"></textarea></div>
+        <div class="glass-card content" id="l4-gate" style="text-align:center;padding:24px"><p id="l4-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete both activities to unlock the quiz.</p><div class="lesson-nav"><button class="nav-btn" onclick="goTo('lesson3-quiz')">← Previous</button><button class="nav-btn primary" id="l4-quiz-btn" onclick="goTo('lesson4-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button></div></div>
+        <div class="reflection-box"><h3>🪞 Lesson Reflection</h3><textarea id="reflectionText4" placeholder="Have you visited the Badlands or seen hoodoos? What evidence of weathering or erosion can you see in your own community?" oninput="saveReflection4()"></textarea></div>
+      </div>
+      <div class="lesson-page" id="page-lesson4-quiz"><div class="lesson-header"><div class="lesson-num">Lesson 4 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">You need 80% to pass!</p></div><div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review weathering types, erosion agents, and Alberta landforms.</div><div id="quiz4-area"></div></div>
+
+      <!-- LESSON 5: FOSSILS & GEOLOGICAL TIME -->
+      <div class="lesson-page" id="page-lesson5">
+        <div class="lesson-header"><div class="lesson-num">Lesson 5</div><h1 class="lesson-title">Fossils & the Geological Time Scale</h1><p class="lesson-subtitle">Use fossils to read Earth's history and understand the immense scale of geological time — including Alberta's world-class fossil sites.</p></div>
+        <div class="glass-card content"><div style="margin-bottom:8px"><span class="outcome-tag">E.K.1</span><span class="outcome-tag">E.K.2</span></div><h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3><ul class="styled-list"><li>I can explain how fossils form in sedimentary rock.</li><li>I can use fossils to determine the relative age of rock layers.</li><li>I can describe Alberta's significance in fossil science (Drumheller, Royal Tyrrell Museum).</li></ul></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3><div class="vocab-grid"><div class="vocab-chip" tabindex="0"><strong>Fossil</strong><span class="vocab-def">: Preserved remains or traces of ancient life — bones, shells, footprints, leaf imprints</span></div><div class="vocab-chip" tabindex="0"><strong>Relative Dating</strong><span class="vocab-def">: Determining which rock layers are older or younger by position — deeper = older</span></div><div class="vocab-chip" tabindex="0"><strong>Geological Time Scale</strong><span class="vocab-def">: Timeline dividing Earth's 4.6 billion year history into eons, eras, periods, and epochs</span></div><div class="vocab-chip" tabindex="0"><strong>Index Fossil</strong><span class="vocab-def">: Fossils from organisms that lived for a short time over a wide area — useful for dating rock layers</span></div></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🎬</span> Watch: Fossils & Deep Time</h3><div class="video-container"><iframe src="https://www.youtube.com/embed/FIpCufYyqfg" title="Fossils" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🦕</span> Activity 1: Fossil Layer Detective</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Use the law of superposition — determine which fossil is older based on rock layer position.</p><div id="l5FossilArea"></div><div id="l5FossilScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">⏳</span> Activity 2: Time Scale Navigator</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Place major events on the geological time scale.</p><div id="l5TimeArea"></div><div id="l5TimeScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">✏️</span> Constructed Response</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Why are fossils almost never found in igneous or metamorphic rock? Use your knowledge of how these rocks form to explain.</p><textarea id="crResponse5" placeholder="Type your answer here…" oninput="saveCR5()"></textarea></div>
+        <div class="glass-card content" id="l5-gate" style="text-align:center;padding:24px"><p id="l5-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete both activities to unlock the quiz.</p><div class="lesson-nav"><button class="nav-btn" onclick="goTo('lesson4-quiz')">← Previous</button><button class="nav-btn primary" id="l5-quiz-btn" onclick="goTo('lesson5-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button></div></div>
+        <div class="reflection-box"><h3>🪞 Lesson Reflection</h3><textarea id="reflectionText5" placeholder="If you could visit the Royal Tyrrell Museum in Drumheller, what fossils would you most want to see? Why?" oninput="saveReflection5()"></textarea></div>
+      </div>
+      <div class="lesson-page" id="page-lesson5-quiz"><div class="lesson-header"><div class="lesson-num">Lesson 5 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">You need 80% to pass!</p></div><div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review fossil formation, relative dating, and the geological time scale.</div><div id="quiz5-area"></div></div>
+
+      <!-- LESSON 6: GEOLOGICAL RESOURCES & EXPLORATION -->
+      <div class="lesson-page" id="page-lesson6">
+        <div class="lesson-header"><div class="lesson-num">Lesson 6</div><h1 class="lesson-title">Geological Resources & Exploration</h1><p class="lesson-subtitle">Explore how Alberta's geological resources (oil, gas, coal, minerals) are found, extracted, and their environmental impacts.</p></div>
+        <div class="glass-card content"><div style="margin-bottom:8px"><span class="outcome-tag">E.K.3</span></div><h3 class="section-title"><span class="icon">🎯</span> Learning Targets</h3><ul class="styled-list"><li>I can describe methods used to explore for geological resources.</li><li>I can explain the environmental impacts of resource extraction.</li><li>I can discuss Alberta's role as a major resource producer.</li></ul></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">📖</span> Key Vocabulary</h3><div class="vocab-grid"><div class="vocab-chip" tabindex="0"><strong>Non-renewable</strong><span class="vocab-def">: Resources that take millions of years to form and cannot be replaced in a human lifetime — oil, gas, coal, minerals</span></div><div class="vocab-chip" tabindex="0"><strong>Geological Survey</strong><span class="vocab-def">: Systematic study of an area's rocks, minerals, and structures to find resources</span></div><div class="vocab-chip" tabindex="0"><strong>Reclamation</strong><span class="vocab-def">: Restoring land disturbed by mining back to a usable state</span></div><div class="vocab-chip" tabindex="0"><strong>Oil Sands</strong><span class="vocab-def">: Naturally occurring mixture of sand, clay, water, and bitumen — Alberta's largest oil source</span></div></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">🎬</span> Watch: Alberta's Geological Resources</h3><div class="video-container"><iframe src="https://www.youtube.com/embed/SvNHqc2oHZM" title="Resources" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">⛏️</span> Activity 1: Resource Explorer</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Match each exploration method to the resource it helps find.</p><div id="l6ExploreArea"></div><div id="l6ExploreScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">⚖️</span> Activity 2: Impact Evaluator</h3><p style="color:var(--text2);font-size:.9rem;margin-bottom:12px">Classify each statement as a benefit or cost of resource extraction.</p><div id="l6ImpactArea"></div><div id="l6ImpactScore"></div></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">✏️</span> Constructed Response</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Alberta's oil sands are one of the largest petroleum reserves in the world. Discuss both the economic benefits and environmental costs. What role should reclamation play?</p><textarea id="crResponse6" placeholder="Type your answer here…" oninput="saveCR6()"></textarea></div>
+        <div class="glass-card content" id="l6-gate" style="text-align:center;padding:24px"><p id="l6-gate-msg" style="color:var(--warn);font-weight:600;margin-bottom:12px">🔒 Complete both activities to unlock the quiz.</p><div class="lesson-nav"><button class="nav-btn" onclick="goTo('lesson5-quiz')">← Previous</button><button class="nav-btn primary" id="l6-quiz-btn" onclick="goTo('lesson6-quiz')" disabled style="opacity:.5;cursor:not-allowed">Take the Quiz 📝</button></div></div>
+        <div class="reflection-box"><h3>🪞 Lesson Reflection</h3><textarea id="reflectionText6" placeholder="How do Alberta's geological resources affect your daily life? Think about energy, products, and jobs." oninput="saveReflection6()"></textarea></div>
+      </div>
+      <div class="lesson-page" id="page-lesson6-quiz"><div class="lesson-header"><div class="lesson-num">Lesson 6 — Quiz</div><h1 class="lesson-title">Check Your Understanding</h1><p class="lesson-subtitle">You need 80% to pass!</p></div><div class="need-help" style="margin-bottom:20px"><strong>💡 Before you start:</strong> Review exploration methods, Alberta resources, and environmental impacts.</div><div id="quiz6-area"></div></div>
+
+      <!-- LESSON 7: PERFORMANCE TASK -->
+      <div class="lesson-page" id="page-lesson7">
+        <div class="lesson-header"><div class="lesson-num">Lesson 7 — Performance Task</div><h1 class="lesson-title">🏆 Geological Cross-Section Interpretation</h1><p class="lesson-subtitle">Apply everything you have learned to interpret a geological cross-section and explain Earth's history at a site.</p></div>
+        <div class="glass-card content"><div style="margin-bottom:8px"><span class="outcome-tag">E.K.1</span><span class="outcome-tag">E.K.2</span><span class="outcome-tag">E.K.3</span></div><h3 class="section-title"><span class="icon">📋</span> Your Task</h3><p>You are a geologist studying a site in the Alberta Badlands. A construction crew has uncovered a cliff face showing multiple rock layers, fossils, a fault line, and evidence of an ancient volcanic eruption. Complete all 4 sections below.</p></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">1️⃣</span> Rock Layer Analysis</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Describe the rock layers you would expect to see (bottom to top). What rock types would be present and how did each form?</p><textarea id="pte1" placeholder="Describe the rock layers…" oninput="savePTe(1)" style="min-height:120px"></textarea></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">2️⃣</span> Fossil Evidence</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">What types of fossils might be found in each sedimentary layer? How do they help determine the age of the rocks?</p><textarea id="pte2" placeholder="Describe the fossil evidence…" oninput="savePTe(2)" style="min-height:120px"></textarea></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">3️⃣</span> Geological Events Timeline</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Create a timeline of geological events at this site (oldest to newest). Include sedimentation, volcanic activity, faulting, and erosion.</p><textarea id="pte3" placeholder="Create your timeline…" oninput="savePTe(3)" style="min-height:120px"></textarea></div>
+        <div class="glass-card content"><h3 class="section-title"><span class="icon">4️⃣</span> Resource Potential & Environmental Considerations</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:8px">Based on the geology, what resources might exist at this site? If extraction were proposed, what environmental considerations would you recommend?</p><textarea id="pte4" placeholder="Discuss resource potential…" oninput="savePTe(4)" style="min-height:120px"></textarea></div>
+        <div class="glass-card content" style="text-align:center;padding:24px"><h3 class="section-title"><span class="icon">🏆</span> Submit Your Geological Report</h3><p style="font-size:.9rem;color:var(--text2);margin-bottom:16px">Make sure all 4 sections are complete.</p><button class="activity-btn" id="ptSubmitBtnE" onclick="submitPTe()" style="font-size:1rem;padding:14px 32px">📨 Submit Performance Task</button></div>
+      </div>
+
+      <!-- TEACHER -->
+      <div class="lesson-page" id="page-teacher">
+        <div class="lesson-header"><div class="lesson-num">📊 Teacher</div><h1 class="lesson-title">Dashboard</h1></div>
+        <div class="glass-card content"><div id="teacherGrades"><p style="color:var(--text3)">No data yet.</p></div><div class="export-btns"><button class="activity-btn" onclick="exportCSV()">📥 CSV</button><button class="activity-btn secondary" onclick="exportJSON()">📥 JSON</button><button class="activity-btn secondary" onclick="clearGrades()">🗑️ Clear</button></div></div>
+      </div>
     </div>
   </div>
 
-  <!-- TOP BAR -->
-  <div class="landing-topbar">
-    <div class="landing-logo">
-      <div class="logo-icon">🔬</div>
-      <div>
-        <h2>Grade 7 Science</h2>
-        <span>Alberta Curriculum</span>
-      </div>
-    </div>
-    <div class="top-actions">
-      <span id="studentDisplay" style="font-size:.85rem;color:var(--text3)"></span>
-      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
-    </div>
-  </div>
-
-  <!-- HERO -->
-  <div class="landing-hero">
-    <h1>Explore. Discover. Master.</h1>
-    <p>Five interactive units aligned to the Alberta Grade 7 Science curriculum. Learn at your own pace, prove your mastery, and unlock new challenges.</p>
-    <div class="landing-progress">
-      <span id="overallLabel">0 / 5 units complete</span>
-      <div class="landing-progress-bar"><div class="landing-progress-fill" id="overallFill" style="width:0%"></div></div>
-    </div>
-  </div>
-
-  <!-- STATS BAR -->
-  <div class="stats-bar">
-    <div class="stat"><div class="stat-num" id="statLessons">0</div><div class="stat-label">Lessons Passed</div></div>
-    <div class="stat"><div class="stat-num" id="statActivities">0</div><div class="stat-label">Activities Done</div></div>
-    <div class="stat"><div class="stat-num" id="statAvg">—</div><div class="stat-label">Avg Score</div></div>
-  </div>
-
-  <!-- UNIT GRID -->
-  <div class="landing-wrap">
-    <div class="unit-grid">
-
-      <!-- UNIT A -->
-      <div class="unit-card" data-unit="a" id="unitCardA" onclick="openUnit('a')">
-        <span class="card-icon">🌿</span>
-        <h3>Interactions & Ecosystems</h3>
-        <div class="unit-code">Unit A</div>
-        <p>Biotic & abiotic factors, food webs, energy flow, populations, and stewardship.</p>
-        <div class="card-meta">
-          <span>📚 4 Lessons</span>
-          <span>🎯 4 Outcomes</span>
-        </div>
-        <div class="card-btn" id="unitBtnA">Start Unit →</div>
-        <div class="card-progress"><div class="card-progress-fill" id="progA" style="width:0%"></div></div>
-      </div>
-
-      <!-- UNIT B -->
-      <div class="unit-card" data-unit="b" id="unitCardB" onclick="openUnit('b')">
-        <span class="card-icon">🌱</span>
-        <h3>Plants for Food & Fibre</h3>
-        <div class="unit-code">Unit B</div>
-        <p>Plant structures, photosynthesis, growth, agriculture, selective breeding, and sustainability.</p>
-        <div class="card-meta">
-          <span>📚 2 Lessons</span>
-          <span>🎯 4 Outcomes</span>
-        </div>
-        <div class="card-btn" id="unitBtnB">Start Unit →</div>
-        <div class="card-progress"><div class="card-progress-fill" id="progB" style="width:0%"></div></div>
-      </div>
-
-      <!-- UNIT C -->
-      <div class="unit-card" data-unit="c" id="unitCardC" onclick="openUnit('c')">
-        <span class="card-icon">🔥</span>
-        <h3>Heat & Temperature</h3>
-        <div class="unit-code">Unit C</div>
-        <p>Thermal energy, particle model, conduction, convection, radiation, and heat technologies.</p>
-        <div class="card-meta">
-          <span>📚 2 Lessons</span>
-          <span>🎯 4 Outcomes</span>
-        </div>
-        <div class="card-btn" id="unitBtnC">Start Unit →</div>
-        <div class="card-progress"><div class="card-progress-fill" id="progC" style="width:0%"></div></div>
-      </div>
-
-      <!-- UNIT D -->
-      <div class="unit-card" data-unit="d" id="unitCardD" onclick="openUnit('d')">
-        <span class="card-icon">🏗️</span>
-        <h3>Structures & Forces</h3>
-        <div class="unit-code">Unit D</div>
-        <p>Shell, frame & solid structures, forces, materials, centre of gravity, and design.</p>
-        <div class="card-meta">
-          <span>📚 2 Lessons</span>
-          <span>🎯 4 Outcomes</span>
-        </div>
-        <div class="card-btn" id="unitBtnD">Start Unit →</div>
-        <div class="card-progress"><div class="card-progress-fill" id="progD" style="width:0%"></div></div>
-      </div>
-
-      <!-- UNIT E -->
-      <div class="unit-card" data-unit="e" id="unitCardE" onclick="openUnit('e')">
-        <span class="card-icon">🌍</span>
-        <h3>Planet Earth</h3>
-        <div class="unit-code">Unit E</div>
-        <p>Earth's layers, rocks & minerals, the rock cycle, fossils, plate tectonics, and erosion.</p>
-        <div class="card-meta">
-          <span>📚 2 Lessons</span>
-          <span>🎯 4 Outcomes</span>
-        </div>
-        <div class="card-btn" id="unitBtnE">Start Unit →</div>
-        <div class="card-progress"><div class="card-progress-fill" id="progE" style="width:0%"></div></div>
-      </div>
-
-    </div><!-- /unit-grid -->
-
-    <div class="footer">
-      <p>Built for Alberta Grade 7 Science &middot; Mastery-Based Learning &middot; <a href="#" onclick="event.preventDefault();toggleTeacher()">Teacher Dashboard</a></p>
-    </div>
-  </div>
-
-  <script src="shared.js"></script>
+  <script src="../shared.js"></script>
   <script>
-    // ===== UNIT NAVIGATION =====
-    const unitPaths = {
-      a: 'unit-a-ecosystems/index.html',
-      b: 'unit-b-plants/index.html',
-      c: 'unit-c-heat/index.html',
-      d: 'unit-d-structures/index.html',
-      e: 'unit-e-earth/index.html'
+    // ===== QUIZ BANKS =====
+    const quizBanks = {
+      quiz1: {
+        primary: [
+          { q: "Earth's layers from surface to centre are:", opts: ["Mantle, crust, outer core, inner core", "Crust, mantle, outer core, inner core", "Inner core, outer core, mantle, crust", "Crust, outer core, mantle, inner core"], ans: 1, outcome: "7-E.1", explain: "The correct order is crust → mantle → outer core → inner core." },
+          { q: "The thinnest layer of Earth is the:", opts: ["Mantle", "Inner core", "Crust", "Outer core"], ans: 2, outcome: "7-E.1", explain: "Earth's crust is only 5–70 km thick — the thinnest layer." },
+          { q: "Which rock type forms when magma cools and hardens?", opts: ["Sedimentary", "Metamorphic", "Igneous", "Mineral"], ans: 2, outcome: "7-E.2", explain: "Igneous rocks form from cooled and solidified magma or lava." },
+          { q: "A rock contains visible layers and a fossil. It is most likely:", opts: ["Igneous", "Sedimentary", "Metamorphic", "A mineral"], ans: 1, outcome: "7-E.2", explain: "Sedimentary rocks form in layers and often contain fossils." },
+          { q: "Scientists learn about Earth's interior primarily by studying:", opts: ["Digging to the core", "Seismic waves from earthquakes", "Satellite photos", "Ocean currents"], ans: 1, outcome: "7-E.1", explain: "Seismic waves change speed and direction as they pass through different layers." },
+          { q: "The difference between a rock and a mineral is:", opts: ["Rocks are bigger", "A mineral is a single substance; a rock is made of minerals", "There is no difference", "Minerals are man-made"], ans: 1, outcome: "7-E.2", explain: "Minerals are single substances; rocks are combinations of minerals." },
+          { q: "Limestone changed by heat and pressure becomes:", opts: ["Granite", "Sandstone", "Marble", "Basalt"], ans: 2, outcome: "7-E.2", explain: "Marble is the metamorphic version of limestone." },
+          { q: "In the rock cycle, sedimentary rock can become igneous rock by:", opts: ["Compaction", "Weathering only", "Melting into magma, then cooling", "Adding fossils"], ans: 2, outcome: "7-E.2", explain: "Any rock can melt into magma; when that magma cools, it forms igneous rock." }
+        ],
+        replacement: [
+          { q: "The layer directly beneath Earth's crust is:", opts: ["Inner core", "Outer core", "Mantle", "Atmosphere"], ans: 2, outcome: "7-E.1", explain: "The mantle sits directly below the crust." },
+          { q: "Earth's inner core is solid because of:", opts: ["Low temperature", "Extreme pressure", "Lack of iron", "It's hollow"], ans: 1, outcome: "7-E.1", explain: "Despite extreme heat, the inner core is kept solid by immense pressure." },
+          { q: "Basalt forms when lava cools quickly on Earth's surface. Basalt is:", opts: ["Sedimentary", "Metamorphic", "Igneous", "A mineral"], ans: 2, outcome: "7-E.2", explain: "Cooled lava = igneous rock. Quick cooling = small crystals." },
+          { q: "Fossils are most commonly found in ___ rock:", opts: ["Igneous", "Metamorphic", "Sedimentary", "All types equally"], ans: 2, outcome: "7-E.2", explain: "Sedimentary rock forms in layers that can preserve remains of organisms." },
+          { q: "Seismic waves help scientists understand Earth's interior because:", opts: ["They dig tunnels", "They change speed through different materials", "They only travel on surface", "They are visible"], ans: 1, outcome: "7-E.1", explain: "Wave speed changes reveal differences in composition and density." },
+          { q: "Quartz is a:", opts: ["Rock", "Mineral", "Fossil", "Layer"], ans: 1, outcome: "7-E.2", explain: "Quartz is a single naturally occurring substance — a mineral." },
+          { q: "Slate forms when shale is exposed to heat and pressure. Slate is:", opts: ["Igneous", "Sedimentary", "Metamorphic", "A mineral"], ans: 2, outcome: "7-E.2", explain: "Existing rock changed by heat + pressure = metamorphic." },
+          { q: "The rock cycle shows that:", opts: ["Rocks never change", "Only igneous rocks exist", "Rocks continuously change from one type to another", "Rocks only form underground"], ans: 2, outcome: "7-E.2", explain: "The rock cycle is a continuous loop — rocks can become any other type." }
+        ],
+        remediation: {
+          "7-E.1": {
+            video: "https://www.youtube.com/embed/eXiVGEEPQ6c",
+            questions: [
+              { q: "The 4 layers of Earth from outside to inside are:", opts: ["Mantle, crust, core, center", "Crust, mantle, outer core, inner core", "Core, mantle, crust, atmosphere", "Inner core, crust, mantle, outer core"], ans: 1, explain: "Crust (thin) → Mantle (thick) → Outer Core (liquid) → Inner Core (solid)." },
+              { q: "The mantle is:", opts: ["Thin and cold", "Thick and made of hot semi-solid rock", "Liquid metal", "Earth's surface"], ans: 1, explain: "The mantle is ~2,900 km of slowly flowing hot rock." },
+              { q: "Scientists study Earth's layers using:", opts: ["Microscopes", "Seismic waves", "Cameras underground", "X-rays"], ans: 1, explain: "Earthquake waves reveal the structure of Earth's interior." }
+            ]
+          },
+          "7-E.2": {
+            video: "https://www.youtube.com/embed/MCGQ9ue-mKg",
+            questions: [
+              { q: "Igneous rocks form from:", opts: ["Compressed layers", "Cooled magma or lava", "Heat and pressure on existing rocks", "Fossils"], ans: 1, explain: "Igneous = cooled and solidified molten rock." },
+              { q: "The rock cycle is:", opts: ["A one-way path", "A continuous loop — rocks keep changing", "Only about igneous rocks", "A type of mineral"], ans: 1, explain: "The rock cycle never ends — any rock can become any other type." },
+              { q: "A rock with visible layers and fossils is:", opts: ["Igneous", "Metamorphic", "Sedimentary", "A mineral"], ans: 2, explain: "Layers and fossils = sedimentary rock." }
+            ]
+          }
+        }
+      }
     };
 
-    function openUnit(uid) {
-      const card = document.getElementById('unitCard' + uid.toUpperCase());
-      if (card && card.classList.contains('locked')) return;
-      window.location.href = unitPaths[uid];
+    const lockMap = {};
+
+    // ===== ACTIVITY 1: Earth Layer Builder =====
+    const layerData = [
+      { name: '🥚 Crust', order: 1, prop: '5–70 km, thin and rocky' },
+      { name: '🔥 Mantle', order: 2, prop: '2,900 km, hot semi-solid rock' },
+      { name: '💧 Outer Core', order: 3, prop: '2,200 km, liquid iron' },
+      { name: '⚡ Inner Core', order: 4, prop: '1,200 km, solid iron' }
+    ];
+    let layerOrder = [], layerOk = 0;
+
+    function initLayers() {
+      layerOrder = []; layerOk = 0;
+      const sh = [...layerData].sort(() => Math.random() - .5);
+      let h = '<p style="font-size:.88rem;color:var(--text2);margin-bottom:12px">Click the layers in order from <strong>surface</strong> (first) to <strong>centre</strong> (last):</p>';
+      h += '<div class="sort-items" id="layerBtns">';
+      sh.forEach(l => { h += `<div class="sort-item" data-order="${l.order}" onclick="pickLayer(this,${l.order})">${l.name}</div>`; });
+      h += '</div><div id="layerResult" style="margin-top:12px"></div>';
+      document.getElementById('layerArea').innerHTML = h;
+      document.getElementById('layerScore').innerHTML = '';
     }
-
-    // ===== PROGRESS TRACKING =====
-    function updateLandingProgress() {
-      const units = ['a','b','c','d','e'];
-      const lessonCounts = { a: 4, b: 2, c: 2, d: 2, e: 2 };
-      let totalPassed = 0, totalLessons = 0, unitsComplete = 0;
-
-      units.forEach(u => {
-        const count = lessonCounts[u];
-        let passed = 0;
-        for (let i = 1; i <= count; i++) {
-          if (localStorage.getItem(`g7-unit${u}-lesson${i}-passed`)) passed++;
-        }
-        totalPassed += passed;
-        totalLessons += count;
-
-        const card = document.getElementById('unitCard' + u.toUpperCase());
-        const prog = document.getElementById('prog' + u.toUpperCase());
-        const btn = document.getElementById('unitBtn' + u.toUpperCase());
-
-        const pct = count > 0 ? Math.round(passed / count * 100) : 0;
-        if (prog) prog.style.width = pct + '%';
-
-        if (passed === count && count > 0) {
-          unitsComplete++;
-          if (card) card.classList.add('completed');
-          if (btn) btn.textContent = 'Review Unit ✓';
-        } else if (passed > 0) {
-          if (btn) btn.textContent = 'Continue →';
-        }
-      });
-
-      // Overall progress
-      const overallPct = totalLessons > 0 ? Math.round(totalPassed / totalLessons * 100) : 0;
-      const fillEl = document.getElementById('overallFill');
-      const labelEl = document.getElementById('overallLabel');
-      if (fillEl) fillEl.style.width = overallPct + '%';
-      if (labelEl) labelEl.textContent = `${unitsComplete} / 5 units complete`;
-
-      // Stats
-      document.getElementById('statLessons').textContent = totalPassed;
-
-      // Count activities from grades
-      const grades = JSON.parse(localStorage.getItem('g7-grades') || '[]');
-      const actCount = grades.filter(g => g.quizId && g.quizId.includes('-l') && g.quizId.includes('-')).length;
-      document.getElementById('statActivities').textContent = actCount;
-
-      const quizGrades = grades.filter(g => g.quizId && g.quizId.startsWith('quiz'));
-      if (quizGrades.length > 0) {
-        const avg = Math.round(quizGrades.reduce((s, g) => s + g.percentage, 0) / quizGrades.length);
-        document.getElementById('statAvg').textContent = avg + '%';
+    function pickLayer(el, ord) {
+      if (el.classList.contains('placed')) return;
+      const next = layerOrder.length + 1;
+      const ok = ord === next;
+      layerOrder.push(ord);
+      if (ok) { layerOk++; el.classList.add('placed'); el.style.borderColor = 'var(--quiz-correct)'; el.style.background = 'rgba(34,197,94,.1)'; }
+      else { el.classList.add('placed'); el.style.borderColor = 'var(--quiz-wrong)'; el.style.background = 'rgba(239,68,68,.08)'; }
+      const res = document.getElementById('layerResult');
+      const d = layerData.find(l => l.order === ord);
+      res.innerHTML += `<div class="sorted-item ${ok ? 'correct' : 'wrong'}" style="display:block;margin:4px 0">${ok ? '✓' : '✗'} Layer ${next}: ${d.name} — ${d.prop}</div>`;
+      if (layerOrder.length === 4) {
+        document.getElementById('layerScore').innerHTML = `<div class="activity-score"><div class="score-number">${layerOk}/4</div><p>${layerOk === 4 ? '🎉 Perfect — you know your layers!' : '📖 Remember: Crust → Mantle → Outer Core → Inner Core'}</p><button class="activity-btn secondary" onclick="initLayers()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(1, 'layers', layerOk, 4);
       }
     }
 
-    function toggleTeacher() {
-      // Simple teacher view — show export options
-      const pw = prompt('Enter teacher access code:');
-      if (pw === 'teacher' || pw === 'admin') {
-        const action = confirm('Export grades?\n\nOK = CSV\nCancel = JSON');
-        if (action) exportCSV(); else exportJSON();
+    // ===== ACTIVITY 2: Rock Type Classifier =====
+    const rockData = [
+      { name: '🪨 Granite', clue: 'Large visible crystals. Formed deep underground from slowly cooling magma.', type: 'igneous' },
+      { name: '🪨 Sandstone', clue: 'Grainy texture, visible layers. Made of compressed sand grains.', type: 'sedimentary' },
+      { name: '🪨 Marble', clue: 'Smooth, swirled patterns. Formed when limestone is exposed to extreme heat and pressure.', type: 'metamorphic' },
+      { name: '🪨 Basalt', clue: 'Dark, fine-grained. Formed when lava cooled quickly on Earth\'s surface.', type: 'igneous' },
+      { name: '🪨 Limestone', clue: 'Contains tiny shell fossils. Formed from layers of marine organisms over millions of years.', type: 'sedimentary' },
+      { name: '🪨 Slate', clue: 'Flat, flaky layers. Created when shale was changed by heat and pressure.', type: 'metamorphic' }
+    ];
+    const rockMap = { igneous: '🌋 Igneous', sedimentary: '🏖️ Sedimentary', metamorphic: '♨️ Metamorphic' };
+    let rockIdx = 0, rockOk = 0;
+
+    function initRocks() { rockIdx = 0; rockOk = 0; renderRockQ(); document.getElementById('rockScore').innerHTML = ''; }
+    function renderRockQ() {
+      if (rockIdx >= rockData.length) {
+        document.getElementById('rockScore').innerHTML = `<div class="activity-score"><div class="score-number">${rockOk}/${rockData.length}</div><p>${rockOk >= 5 ? '🎉 Rock expert!' : '📖 Review: igneous=cooled magma, sedimentary=layers, metamorphic=heat+pressure.'}</p><button class="activity-btn secondary" onclick="initRocks()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(1, 'rocks', rockOk, rockData.length);
+        return;
       }
+      const r = rockData[rockIdx];
+      const keys = Object.keys(rockMap).sort(() => Math.random() - .5);
+      document.getElementById('rockArea').innerHTML = `<div class="glass-card" style="padding:16px;margin-bottom:12px"><p style="font-size:1rem;font-weight:700;margin-bottom:4px">${r.name}</p><p style="font-size:.88rem;color:var(--text2);margin-bottom:16px">🔍 <em>${r.clue}</em></p><div style="display:flex;gap:8px;flex-wrap:wrap">${keys.map(k => `<button class="activity-btn secondary" onclick="pickRock('${k}')" style="flex:1;min-width:100px">${rockMap[k]}</button>`).join('')}</div><div id="rockFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">Sample ${rockIdx + 1} of ${rockData.length}</p>`;
+    }
+    function pickRock(ans) {
+      const r = rockData[rockIdx], ok = ans === r.type;
+      if (ok) rockOk++;
+      document.getElementById('rockFb').innerHTML = `<div style="padding:10px;border-radius:8px;background:${ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.08)'};font-size:.85rem;color:var(--text2)"><strong>${ok ? '✅' : '❌'}</strong> ${r.name} is <strong>${rockMap[r.type]}</strong>.</div>`;
+      setTimeout(() => { rockIdx++; renderRockQ(); }, 1300);
     }
 
-    // ===== INIT =====
-    document.addEventListener('DOMContentLoaded', () => {
-      updateLandingProgress();
-    });
+    // ===== ACTIVITY 3: Rock Cycle Navigator =====
+    const cycleData = [
+      { from: '🌋 Igneous', to: '🏖️ Sedimentary', process: 'Weathering & Erosion → Compaction', options: ['Weathering & Erosion → Compaction', 'Melting → Cooling', 'Heat & Pressure'] },
+      { from: '🏖️ Sedimentary', to: '♨️ Metamorphic', process: 'Heat & Pressure', options: ['Melting → Cooling', 'Weathering & Erosion', 'Heat & Pressure'] },
+      { from: '♨️ Metamorphic', to: '🌋 Igneous', process: 'Melting → Cooling', options: ['Heat & Pressure', 'Melting → Cooling', 'Weathering & Erosion → Compaction'] },
+      { from: '🏖️ Sedimentary', to: '🌋 Igneous', process: 'Melting → Cooling', options: ['Weathering & Erosion', 'Melting → Cooling', 'Heat & Pressure'] },
+      { from: '🌋 Igneous', to: '♨️ Metamorphic', process: 'Heat & Pressure', options: ['Melting → Cooling', 'Heat & Pressure', 'Weathering & Erosion → Compaction'] }
+    ];
+    let cycleIdx = 0, cycleOk = 0;
+
+    function initCycle() { cycleIdx = 0; cycleOk = 0; renderCycleQ(); document.getElementById('cycleScore').innerHTML = ''; }
+    function renderCycleQ() {
+      if (cycleIdx >= cycleData.length) {
+        document.getElementById('cycleScore').innerHTML = `<div class="activity-score"><div class="score-number">${cycleOk}/${cycleData.length}</div><p>${cycleOk >= 4 ? '🎉 Rock cycle master!' : '📖 Review the rock cycle processes above.'}</p><button class="activity-btn secondary" onclick="initCycle()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(1, 'cycle', cycleOk, cycleData.length);
+        return;
+      }
+      const c = cycleData[cycleIdx];
+      const sh = [...c.options].sort(() => Math.random() - .5);
+      document.getElementById('cycleArea').innerHTML = `<div class="glass-card" style="padding:16px;margin-bottom:12px"><p style="font-size:.95rem;margin-bottom:4px"><strong>${c.from}</strong> → <strong>${c.to}</strong></p><p style="font-size:.88rem;color:var(--text2);margin-bottom:16px">What process causes this transformation?</p><div style="display:flex;flex-direction:column;gap:8px">${sh.map(o => `<div class="whatif-option" onclick="pickCycle('${o}')">${o}</div>`).join('')}</div><div id="cycleFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${cycleIdx + 1} of ${cycleData.length}</p>`;
+    }
+    function pickCycle(ans) {
+      const c = cycleData[cycleIdx], ok = ans === c.process;
+      if (ok) cycleOk++;
+      document.querySelectorAll('#cycleArea .whatif-option').forEach(o => { o.style.pointerEvents = 'none'; if (o.textContent === c.process) o.classList.add('correct'); else if (o.textContent === ans && !ok) o.classList.add('wrong'); });
+      document.getElementById('cycleFb').innerHTML = `<div style="padding:10px;border-radius:8px;background:${ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.08)'};font-size:.85rem;color:var(--text2)"><strong>${ok ? '✅' : '❌'}</strong> ${c.from} becomes ${c.to} through <strong>${c.process}</strong>.</div>`;
+      setTimeout(() => { cycleIdx++; renderCycleQ(); }, 1500);
+    }
+
+    // ===== QUIZ BANK 2 =====
+    quizBanks.quiz2 = {
+      primary: [
+        { q: "Tectonic plates move because of:", opts: ["Gravity pulling them", "Convection currents in the mantle", "Wind on the surface", "Ocean tides"], ans: 1, outcome: "7-E.3", explain: "Hot mantle rock rises, cools, and sinks — this convection drags plates along." },
+        { q: "At a convergent boundary, plates:", opts: ["Pull apart", "Slide past each other", "Push toward each other", "Don’t move"], ans: 2, outcome: "7-E.3", explain: "Convergent = coming together. This can form mountains, volcanoes, or trenches." },
+        { q: "The Ring of Fire is associated with:", opts: ["Divergent boundaries", "Transform boundaries", "Convergent/subduction boundaries", "No plate activity"], ans: 2, outcome: "7-E.3", explain: "The Ring of Fire has intense volcanic and earthquake activity from subduction zones." },
+        { q: "Pangaea was:", opts: ["An ancient ocean", "A supercontinent where all land was joined", "A type of rock", "A volcano"], ans: 1, outcome: "7-E.4", explain: "Pangaea was the single supercontinent that existed about 300 million years ago." },
+        { q: "Matching fossils on different continents suggest:", opts: ["Animals could fly", "The continents were once connected", "Fossils can swim", "Nothing — it’s coincidence"], ans: 1, outcome: "7-E.4", explain: "Same species on separated continents = they were once connected before drifting." },
+        { q: "The Rocky Mountains formed from:", opts: ["Erosion", "Divergent boundary", "Convergent boundary (plate collision)", "A meteorite"], ans: 2, outcome: "7-E.3", explain: "Plate collision crumpled the crust upward, forming the Rockies." },
+        { q: "At a divergent boundary:", opts: ["Mountains form", "New crust is created as plates pull apart", "Plates slide sideways", "Nothing happens"], ans: 1, outcome: "7-E.3", explain: "Divergent boundaries create new crust as magma rises to fill the gap." },
+        { q: "Transform boundaries mainly cause:", opts: ["Volcanoes", "Mountains", "Earthquakes", "Tsunamis only"], ans: 2, outcome: "7-E.3", explain: "Plates grind past each other, building pressure that releases as earthquakes." }
+      ],
+      replacement: [
+        { q: "Subduction occurs when:", opts: ["A plate rises", "A denser plate dives under a lighter one", "Plates move sideways", "Nothing happens"], ans: 1, outcome: "7-E.3", explain: "Subduction = a denser oceanic plate sinks beneath a lighter continental plate." },
+        { q: "Wegener’s continental drift theory was supported by:", opts: ["Satellite data only", "Puzzle fit of continents and matching fossils/rocks", "Temperature readings", "Water samples"], ans: 1, outcome: "7-E.4", explain: "Multiple lines of evidence: coastline fit, fossils, rocks, and ancient glacial patterns." },
+        { q: "Mid-ocean ridges form at:", opts: ["Convergent boundaries", "Divergent boundaries", "Transform boundaries", "Hotspots only"], ans: 1, outcome: "7-E.3", explain: "Plates pull apart underwater, and magma rises to create new oceanic crust." },
+        { q: "Glacial scratches in tropical Africa suggest:", opts: ["Africa was once near a pole", "Ice can form in tropics", "The scratches are fake", "Wind erosion"], ans: 0, outcome: "7-E.4", explain: "Africa was once positioned near the South Pole when continents were connected." },
+        { q: "The Himalayan Mountains formed when:", opts: ["India and Asia collided (convergent)", "Plates pulled apart", "A volcano erupted", "Erosion carved them"], ans: 0, outcome: "7-E.3", explain: "Two continental plates collided, pushing crust upward into the world’s highest mountains." },
+        { q: "Africa and South America fit together because:", opts: ["They are the same continent", "They were once part of Pangaea", "Someone cut them", "Ocean erosion"], ans: 1, outcome: "7-E.4", explain: "Their coastlines match because they split apart when Pangaea broke up." },
+        { q: "Volcanoes at subduction zones form because:", opts: ["Wind pushes lava up", "The subducting plate melts, and magma rises", "Plates pull apart", "Rivers erode the ground"], ans: 1, outcome: "7-E.3", explain: "The sinking plate melts from heat, and the resulting magma erupts through the surface." },
+        { q: "Plates move about:", opts: ["1 km per year", "A few centimetres per year", "1 metre per day", "They don’t move"], ans: 1, outcome: "7-E.3", explain: "Plates move only a few cm/year — about as fast as fingernails grow." }
+      ],
+      remediation: {
+        "7-E.3": {
+          video: "https://www.youtube.com/embed/kwfNGatxUJI",
+          questions: [
+            { q: "Convergent boundaries are where plates:", opts: ["Pull apart", "Push together", "Slide past", "Don’t move"], ans: 1, explain: "Convergent = plates coming together (con = together)." },
+            { q: "Earthquakes happen most often at:", opts: ["Random locations", "Plate boundaries", "The equator", "Mountain tops"], ans: 1, explain: "Most earthquakes occur where plates meet and grind against each other." },
+            { q: "What drives plate movement?", opts: ["The moon’s gravity", "Convection currents in the mantle", "Ocean waves", "Wind"], ans: 1, explain: "Heat-driven convection in the mantle creates currents that move plates." }
+          ]
+        },
+        "7-E.4": {
+          video: "https://www.youtube.com/embed/kwfNGatxUJI",
+          questions: [
+            { q: "Pangaea was:", opts: ["A planet", "A supercontinent", "A type of dinosaur", "An ocean"], ans: 1, explain: "Pangaea was the supercontinent that included all current landmasses." },
+            { q: "Matching rock types on different continents suggest:", opts: ["Nothing", "The continents were once joined", "Rocks can fly", "Erosion"], ans: 1, explain: "Same rocks across oceans = those lands were once connected." },
+            { q: "Why do Africa and South America fit together?", opts: ["Coincidence", "They split apart from Pangaea", "Erosion shaped them", "They’re growing"], ans: 1, explain: "They were once joined and split apart as Pangaea broke up." }
+          ]
+        }
+      }
+    };
+
+    // ===== L2 ACTIVITY 1: Boundary Classifier =====
+    const boundData = [
+      { text: '⛰️ Two continental plates collide and form mountains.', type: 'convergent', explain: 'Plates pushing together = convergent. Collision crumples crust upward.' },
+      { text: '🌋 The Pacific plate slides under the North American plate.', type: 'convergent', explain: 'Subduction (one plate diving under another) = convergent boundary.' },
+      { text: '🌊 New ocean floor forms at a mid-ocean ridge.', type: 'divergent', explain: 'Plates pulling apart lets magma rise and create new crust = divergent.' },
+      { text: '🌍 The San Andreas Fault in California causes earthquakes.', type: 'transform', explain: 'Plates sliding past each other = transform boundary.' },
+      { text: '🌋 Iceland sits on a spreading ridge with volcanic activity.', type: 'divergent', explain: 'Iceland is on the Mid-Atlantic Ridge where plates pull apart = divergent.' },
+      { text: '🌊 The Mariana Trench is the deepest ocean point.', type: 'convergent', explain: 'Ocean trenches form where one plate subducts under another = convergent.' }
+    ];
+    const boundMap = { convergent: '⬆️ Convergent', divergent: '⬇️ Divergent', transform: '↔️ Transform' };
+    let bIdx = 0, bOk = 0;
+    function initBound() { bIdx = 0; bOk = 0; renderBoundQ(); document.getElementById('boundScore').innerHTML = ''; }
+    function renderBoundQ() {
+      if (bIdx >= boundData.length) {
+        document.getElementById('boundScore').innerHTML = `<div class="activity-score"><div class="score-number">${bOk}/${boundData.length}</div><p>${bOk === boundData.length ? '🎉 Boundary expert!' : '📖 Together=convergent, apart=divergent, sliding=transform.'}</p><button class="activity-btn secondary" onclick="initBound()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(2, 'bound', bOk, boundData.length); return;
+      }
+      const sc = boundData[bIdx], keys = Object.keys(boundMap).sort(() => Math.random() - .5);
+      document.getElementById('boundArea').innerHTML = `<div class="glass-card" style="padding:16px;margin-bottom:12px"><p style="font-size:.95rem;margin-bottom:16px">${sc.text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${keys.map(k => `<button class="activity-btn secondary" onclick="pickBound('${k}')" style="flex:1;min-width:100px">${boundMap[k]}</button>`).join('')}</div><div id="bFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${bIdx + 1} of ${boundData.length}</p>`;
+    }
+    function pickBound(ans) {
+      const sc = boundData[bIdx], ok = ans === sc.type;
+      if (ok) bOk++;
+      document.getElementById('bFb').innerHTML = `<div style="padding:10px;border-radius:8px;background:${ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.08)'};font-size:.85rem;color:var(--text2)"><strong>${ok ? '✅' : '❌'}</strong> ${sc.explain}</div>`;
+      setTimeout(() => { bIdx++; renderBoundQ(); }, 1500);
+    }
+
+    // ===== L2 ACTIVITY 2: Continental Drift Evidence =====
+    const driftEvData = [
+      { text: '🧩 South America and Africa’s coastlines fit together.', type: 'fit', explain: 'The puzzle-like fit of continents was Wegener’s first observation.' },
+      { text: '🦕 Mesosaurus fossils found in both South America and Africa.', type: 'fossil', explain: 'Same fossils on separated continents = they were once connected.' },
+      { text: '🪨 The same mountain chain exists in Scotland and eastern Canada.', type: 'rock', explain: 'Matching rock formations across the Atlantic — once a single mountain range.' },
+      { text: '❄️ Glacial scratches found in tropical India and Africa.', type: 'climate', explain: 'These regions were once near the South Pole when Pangaea existed.' }
+    ];
+    const driftMap = { fit: '🧩 Puzzle Fit', fossil: '🦕 Fossil Match', rock: '🪨 Rock Match', climate: '❄️ Climate Evidence' };
+    let drIdx = 0, drOk = 0;
+    function initDrift() { drIdx = 0; drOk = 0; renderDriftQ(); document.getElementById('driftScore').innerHTML = ''; }
+    function renderDriftQ() {
+      if (drIdx >= driftEvData.length) {
+        document.getElementById('driftScore').innerHTML = `<div class="activity-score"><div class="score-number">${drOk}/${driftEvData.length}</div><p>${drOk === driftEvData.length ? '🎉 Evidence master!' : '📖 Four types: puzzle fit, fossils, rocks, climate marks.'}</p><button class="activity-btn secondary" onclick="initDrift()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(2, 'drift', drOk, driftEvData.length); return;
+      }
+      const sc = driftEvData[drIdx], keys = Object.keys(driftMap).sort(() => Math.random() - .5);
+      document.getElementById('driftArea').innerHTML = `<div class="glass-card" style="padding:16px;margin-bottom:12px"><p style="font-size:.95rem;margin-bottom:16px">${sc.text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${keys.map(k => `<button class="activity-btn secondary" onclick="pickDrift('${k}')" style="flex:1;min-width:100px;font-size:.78rem">${driftMap[k]}</button>`).join('')}</div><div id="drFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${drIdx + 1} of ${driftEvData.length}</p>`;
+    }
+    function pickDrift(ans) {
+      const sc = driftEvData[drIdx], ok = ans === sc.type;
+      if (ok) drOk++;
+      document.getElementById('drFb').innerHTML = `<div style="padding:10px;border-radius:8px;background:${ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.08)'};font-size:.85rem;color:var(--text2)"><strong>${ok ? '✅' : '❌'}</strong> ${sc.explain}</div>`;
+      setTimeout(() => { drIdx++; renderDriftQ(); }, 1500);
+    }
+
+    // ===== L2 ACTIVITY 3: Geological Event Predictor =====
+    const geoEvData = [
+      { text: '🌍 Two oceanic plates converge. What happens?', opts: ['Mountains form', 'One subducts under the other → trench + volcanic island arc', 'They bounce apart', 'Nothing'], ans: 1, explain: 'When oceanic plates converge, the denser one subducts, creating a trench and volcanoes.' },
+      { text: '🌋 Plates diverge under the ocean. What forms?', opts: ['A mountain range', 'A mid-ocean ridge with new crust', 'An earthquake only', 'A glacier'], ans: 1, explain: 'Divergent oceanic boundaries create mid-ocean ridges where magma fills the gap.' },
+      { text: '🌍 Two continental plates collide. What happens?', opts: ['A volcano erupts', 'A huge mountain range forms (like the Himalayas)', 'They slide past', 'The ocean fills in'], ans: 1, explain: 'Neither continental plate subducts (too light), so they crumple upward into mountains.' },
+      { text: '↔️ Plates grind sideways past each other. What’s the main hazard?', opts: ['Volcanic eruption', 'Mountain building', 'Earthquakes', 'New crust formation'], ans: 2, explain: 'Transform boundaries build up friction until plates suddenly slip — causing earthquakes.' }
+    ];
+    let geoIdx = 0, geoOk = 0;
+    function initGeo() { geoIdx = 0; geoOk = 0; renderGeoQ(); document.getElementById('geoScore').innerHTML = ''; }
+    function renderGeoQ() {
+      if (geoIdx >= geoEvData.length) {
+        document.getElementById('geoScore').innerHTML = `<div class="activity-score"><div class="score-number">${geoOk}/${geoEvData.length}</div><p>${geoOk === geoEvData.length ? '🎉 Geologist!' : '📖 Think about what each boundary type creates.'}</p><button class="activity-btn secondary" onclick="initGeo()" style="margin-top:8px">🔄 Try Again</button></div>`;
+        markActivityDone(2, 'geo', geoOk, geoEvData.length); return;
+      }
+      const sc = geoEvData[geoIdx];
+      document.getElementById('geoArea').innerHTML = `<div class="glass-card" style="padding:16px;margin-bottom:12px"><p style="font-size:.95rem;font-weight:700;margin-bottom:16px">${sc.text}</p>${sc.opts.map((o, i) => `<div class="whatif-option" onclick="pickGeo(${i})">${o}</div>`).join('')}<div id="geoFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${geoIdx + 1} of ${geoEvData.length}</p>`;
+    }
+    function pickGeo(idx) {
+      const sc = geoEvData[geoIdx], ok = idx === sc.ans;
+      if (ok) geoOk++;
+      document.querySelectorAll('#geoArea .whatif-option').forEach((o, i) => { o.style.pointerEvents = 'none'; o.classList.add(i === sc.ans ? 'correct' : (i === idx && !ok ? 'wrong' : '')); });
+      document.getElementById('geoFb').innerHTML = `<div style="padding:10px;border-radius:8px;background:${ok ? 'rgba(34,197,94,.1)' : 'rgba(239,68,68,.08)'};font-size:.85rem;color:var(--text2)"><strong>${ok ? '✅' : '❌'}</strong> ${sc.explain}</div>`;
+      setTimeout(() => { geoIdx++; renderGeoQ(); }, 1800);
+    }
+
+    function saveCR2() { localStorage.setItem('g7-unite-l2-cr', document.getElementById('crResponse2')?.value || ''); }
+    function saveReflection2() { localStorage.setItem('g7-unite-l2-reflect', document.getElementById('reflectionText2')?.value || ''); }
+    function loadSavedText2() {
+      const cr = document.getElementById('crResponse2'), rf = document.getElementById('reflectionText2');
+      if (cr) cr.value = localStorage.getItem('g7-unite-l2-cr') || '';
+      if (rf) rf.value = localStorage.getItem('g7-unite-l2-reflect') || '';
+    }
+
+    // ===== QUIZ BANKS 3-6 =====
+    quizBanks.quiz3={primary:[{q:"The rock cycle describes:",opts:["The life cycle of mountains","How rocks continuously transform between three types","How fossils form","Plate movement"],ans:1,outcome:"7-E.1-RC",explain:"Igneous ↔ Sedimentary ↔ Metamorphic — a never-ending cycle."},{q:"Igneous rock forms when:",opts:["Sediment compacts","Magma or lava cools and solidifies","Pressure changes existing rock","Fossils are compressed"],ans:1,outcome:"7-E.1-RC",explain:"Cooling magma/lava = igneous rock (granite, basalt, obsidian)."},{q:"Sedimentary rock forms through:",opts:["Melting and cooling","Weathering, erosion, deposition, compaction, and cementation","Extreme heat and pressure","Volcanic eruption"],ans:1,outcome:"7-E.1-RC",explain:"Layers of sediment build up and compress over millions of years."},{q:"Metamorphic rock forms when:",opts:["Lava cools quickly","Existing rock is changed by extreme heat and pressure without melting","Sediment is deposited","Fossils decay"],ans:1,outcome:"7-E.1-META",explain:"Heat + pressure transforms rock (limestone → marble, shale → slate)."},{q:"Marble forms from limestone through:",opts:["Erosion","Metamorphism (heat and pressure)","Melting","Weathering"],ans:1,outcome:"7-E.1-META",explain:"Heat and pressure recrystallize limestone into marble."},{q:"The rock cycle is driven by:",opts:["Gravity only","Earth's internal heat AND surface processes (weathering, erosion)","The moon","Wind only"],ans:1,outcome:"7-E.1-RC",explain:"Internal heat drives melting/metamorphism; surface processes drive weathering."}],replacement:[{q:"Granite is classified as:",opts:["Sedimentary","Igneous","Metamorphic","Fossil-bearing"],ans:1,outcome:"7-E.1-RC",explain:"Granite formed from slow-cooling magma underground."},{q:"Compaction and cementation create:",opts:["Igneous rock","Sedimentary rock","Metamorphic rock","Minerals"],ans:1,outcome:"7-E.1-RC",explain:"Sediment layers compressed → sedimentary rock."},{q:"Slate forms from shale through:",opts:["Melting","Metamorphism","Erosion","Cooling"],ans:1,outcome:"7-E.1-META",explain:"Pressure transforms shale into harder, layered slate."},{q:"Any rock type can become any other rock type because:",opts:["Rocks do not change","The rock cycle allows multiple transformation pathways","Only igneous can change","It takes too long"],ans:1,outcome:"7-E.1-RC",explain:"The cycle has many paths — any type can transform."},{q:"Obsidian (volcanic glass) is igneous because it formed from:",opts:["Compressed shells","Rapidly cooling lava","Extreme pressure","Erosion"],ans:1,outcome:"7-E.1-RC",explain:"Quick-cooling lava → smooth glassy texture."},{q:"The connection between plate tectonics and the rock cycle is:",opts:["None","Plate movement causes melting, pressure, and uplift that drive the cycle","Plates are made of sediment","Tectonics stops the cycle"],ans:1,outcome:"7-E.1-META",explain:"Subduction melts rock; collision creates metamorphism."}],remediation:{"7-E.1-RC":{video:"https://www.youtube.com/embed/cFipNMIgJNo",questions:[{q:"Igneous rock forms from:",opts:["Pressure","Cooling magma or lava"],ans:1,explain:"Melted rock solidifies into igneous."},{q:"Sedimentary rock forms from:",opts:["Melting","Compacting layers of sediment"],ans:1,explain:"Layers compress over millions of years."}]},"7-E.1-META":{video:"https://www.youtube.com/embed/cFipNMIgJNo",questions:[{q:"Metamorphic rock forms from:",opts:["Cooling lava","Heat and pressure changing existing rock"],ans:1,explain:"Existing rock transforms without melting."},{q:"Marble forms from:",opts:["Granite","Limestone under heat and pressure"],ans:1,explain:"Limestone metamorphoses into marble."}]}}};
+
+    quizBanks.quiz4={primary:[{q:"Mechanical weathering breaks rock by:",opts:["Chemical reactions","Physical forces (freeze-thaw, root growth, abrasion)","Dissolving minerals","Melting"],ans:1,outcome:"7-E.1-WEATH",explain:"Physical breakdown without changing chemical composition."},{q:"Chemical weathering involves:",opts:["Cracking from ice","Dissolving or altering minerals through chemical reactions","Wind blowing sand","Root growth"],ans:1,outcome:"7-E.1-WEATH",explain:"Acid rain, oxidation, and carbonation change rock chemistry."},{q:"The Alberta Badlands near Drumheller formed through:",opts:["Earthquakes","Millions of years of wind and water erosion","Volcanic activity","Glaciation alone"],ans:1,outcome:"7-E.1-LAND",explain:"Wind and water carved soft sedimentary rock over 70+ million years."},{q:"Hoodoos are created when:",opts:["Lava cools","A hard rock cap protects softer rock below from erosion","Earthquakes split rock","Ice melts quickly"],ans:1,outcome:"7-E.1-LAND",explain:"The cap rock resists erosion while surrounding rock wears away."},{q:"Freeze-thaw weathering works because:",opts:["Ice is sharp","Water expands when it freezes, widening cracks","Cold makes rock brittle","Snow is heavy"],ans:1,outcome:"7-E.1-WEATH",explain:"9% expansion forces cracks wider each cycle."},{q:"Erosion is different from weathering because:",opts:["They are the same","Erosion involves TRANSPORT of broken material by wind, water, ice, or gravity","Erosion only happens underground","Weathering is faster"],ans:1,outcome:"7-E.1-WEATH",explain:"Weathering = breakdown; Erosion = transport."}],replacement:[{q:"Acid rain causes:",opts:["Mechanical weathering","Chemical weathering by dissolving minerals","No damage","Erosion only"],ans:1,outcome:"7-E.1-WEATH",explain:"Acid reacts with minerals (especially carbonates)."},{q:"Glaciers shaped Alberta by:",opts:["Melting rock","Carving valleys, depositing till, and creating moraines","Heating the ground","Chemical reactions"],ans:1,outcome:"7-E.1-LAND",explain:"Ice sheets carved and deposited Alberta's landscape."},{q:"Root wedging is an example of:",opts:["Chemical weathering","Mechanical weathering","Erosion","Sedimentation"],ans:1,outcome:"7-E.1-WEATH",explain:"Growing roots physically crack rock apart."},{q:"The Canadian Rockies continue to erode because of:",opts:["Nothing — they are permanent","Ongoing wind, water, and freeze-thaw weathering","Volcanic activity","Human activity"],ans:1,outcome:"7-E.1-LAND",explain:"Mountains are constantly weathered and eroded."},{q:"Sedimentation occurs when:",opts:["Rock melts","Transported material settles and accumulates","Wind speeds up","Temperature rises"],ans:1,outcome:"7-E.1-WEATH",explain:"Erosion stops → sediment deposits in layers."},{q:"Oxbow lakes in Alberta formed through:",opts:["Earthquakes","River meander erosion and deposition","Volcanic craters","Glacial melting only"],ans:1,outcome:"7-E.1-LAND",explain:"Rivers erode outer banks and deposit on inner banks."}],remediation:{"7-E.1-WEATH":{video:"https://www.youtube.com/embed/R-Ix55qApeA",questions:[{q:"Mechanical weathering uses:",opts:["Chemical reactions","Physical forces like ice and roots"],ans:1,explain:"Physical breakdown, no chemical change."},{q:"Erosion TRANSPORTS material using:",opts:["Heat","Wind, water, ice, and gravity"],ans:1,explain:"Agents carry broken rock to new locations."}]},"7-E.1-LAND":{video:"https://www.youtube.com/embed/R-Ix55qApeA",questions:[{q:"Hoodoos form because:",opts:["Lava cooled","Hard caps protect soft rock from erosion"],ans:1,explain:"Differential erosion creates pillars."},{q:"Alberta's Badlands were carved by:",opts:["Earthquakes","Millions of years of wind and water erosion"],ans:1,explain:"Patient erosion of soft sedimentary layers."}]}}};
+
+    quizBanks.quiz5={primary:[{q:"Fossils are most commonly found in:",opts:["Igneous rock","Sedimentary rock","Metamorphic rock","Lava flows"],ans:1,outcome:"7-E.1-FOSS",explain:"Sedimentary layers preserve remains without destroying them."},{q:"The law of superposition states:",opts:["Older rocks are on top","In undisturbed layers, deeper layers are older","All rocks are the same age","Fossils determine rock type"],ans:1,outcome:"7-E.1-FOSS",explain:"Bottom = oldest; top = youngest (unless disturbed)."},{q:"Index fossils are useful for dating because they:",opts:["Are very large","Lived for a short time over a wide area","Are always dinosaurs","Are made of rock"],ans:1,outcome:"7-E.1-TIME",explain:"Short time range + wide distribution = precise dating."},{q:"Alberta's Royal Tyrrell Museum is world-famous for:",opts:["Minerals","Dinosaur fossils and paleontology","Oil sands research","Weather data"],ans:1,outcome:"7-E.1-FOSS",explain:"One of the world's largest collections of dinosaur fossils."},{q:"The geological time scale divides Earth's history into:",opts:["Seasons","Eons, eras, periods, and epochs","Months and years","Layers and strata"],ans:1,outcome:"7-E.1-TIME",explain:"Hierarchical divisions of 4.6 billion years."},{q:"Fossils are rarely found in igneous rock because:",opts:["Igneous rock is too soft","Extreme heat destroys organic remains","Igneous rock forms too slowly","There were no organisms when igneous formed"],ans:1,outcome:"7-E.1-FOSS",explain:"Magma/lava temperatures destroy all organic material."}],replacement:[{q:"Relative dating determines:",opts:["Exact age in years","Which layers are older or younger relative to each other","Rock composition","Fossil species"],ans:1,outcome:"7-E.1-FOSS",explain:"Relative = order, not exact numbers."},{q:"Trilobite fossils indicate the rock is from the:",opts:["Cenozoic Era","Paleozoic Era","Mesozoic Era","Today"],ans:1,outcome:"7-E.1-TIME",explain:"Trilobites lived 521–252 million years ago (Paleozoic)."},{q:"Dinosaur fossils in Alberta are from the:",opts:["Precambrian","Mesozoic Era (specifically Late Cretaceous)","Paleozoic Era","Cenozoic Era"],ans:1,outcome:"7-E.1-TIME",explain:"Alberta's dinosaurs roamed 75–66 million years ago."},{q:"A fossil of a marine shell found on a mountain suggests:",opts:["Nothing","The area was once underwater and was later uplifted","Shells can climb mountains","Someone placed it there"],ans:1,outcome:"7-E.1-FOSS",explain:"Tectonic uplift raised ancient ocean floors."},{q:"Earth is approximately:",opts:["1 million years old","4.6 billion years old","100 million years old","10,000 years old"],ans:1,outcome:"7-E.1-TIME",explain:"Radiometric dating confirms ~4.6 billion years."},{q:"Trace fossils include:",opts:["Bones and teeth","Footprints, burrows, and coprolites (fossilized poop)","Only shells","Only plants"],ans:1,outcome:"7-E.1-FOSS",explain:"Trace fossils show behavior, not body parts."}],remediation:{"7-E.1-FOSS":{video:"https://www.youtube.com/embed/FIpCufYyqfg",questions:[{q:"Fossils form best in:",opts:["Lava","Sedimentary rock layers"],ans:1,explain:"Gentle burial preserves remains."},{q:"Superposition means:",opts:["Top layers are oldest","Bottom layers are oldest"],ans:1,explain:"Deeper = older in undisturbed strata."}]},"7-E.1-TIME":{video:"https://www.youtube.com/embed/FIpCufYyqfg",questions:[{q:"Index fossils lived:",opts:["For millions of years in one spot","Briefly over a wide area"],ans:1,explain:"Short time + wide area = good for dating."},{q:"Earth is approximately:",opts:["1 million years old","4.6 billion years old"],ans:1,explain:"Radiometric dating confirms deep time."}]}}};
+
+    quizBanks.quiz6={primary:[{q:"Alberta's oil sands contain:",opts:["Pure crude oil","Bitumen mixed with sand, clay, and water","Natural gas only","Coal deposits"],ans:1,outcome:"7-E.3-RES",explain:"Bitumen is thick, heavy oil trapped in sand/clay."},{q:"A geological survey is used to:",opts:["Build roads","Systematically study rocks and structures to find resources","Predict weather","Grow crops"],ans:1,outcome:"7-E.3-EXPLORE",explain:"Surveys map underground geology for resource potential."},{q:"Reclamation means:",opts:["Finding more resources","Restoring mined land back to a usable, natural state","Selling resources","Drilling deeper"],ans:1,outcome:"7-E.3-RES",explain:"Legal requirement in Alberta after mining completes."},{q:"Non-renewable resources are called that because:",opts:["They can be renewed","They take millions of years to form and cannot be replaced quickly","They are cheap","They are underground"],ans:1,outcome:"7-E.3-RES",explain:"Oil, gas, coal, and minerals form over geological time."},{q:"Seismic surveying uses:",opts:["Cameras","Sound waves bounced off underground rock layers","Magnets","Satellites only"],ans:1,outcome:"7-E.3-EXPLORE",explain:"Reflected sound waves reveal underground structures."},{q:"An environmental impact of oil sands mining is:",opts:["Cleaner water","Habitat destruction, tailings ponds, and increased CO2 emissions","Better soil","More forests"],ans:1,outcome:"7-E.3-RES",explain:"Mining has significant environmental costs."}],replacement:[{q:"Core drilling extracts:",opts:["Water","Cylindrical rock samples from underground","Fossils only","Air samples"],ans:1,outcome:"7-E.3-EXPLORE",explain:"Core samples reveal rock types and potential resources."},{q:"Alberta's coal deposits formed from:",opts:["Volcanic activity","Ancient swamp plants compressed over millions of years","Ocean sediment","Glacier ice"],ans:1,outcome:"7-E.3-RES",explain:"Coal = fossilized plant material (carbonification)."},{q:"Remote sensing for geological exploration uses:",opts:["Shovels","Satellite imagery and aerial photography","Taste testing","X-rays"],ans:1,outcome:"7-E.3-EXPLORE",explain:"Satellites detect surface clues about underground geology."},{q:"Tailings ponds in Alberta contain:",opts:["Clean water","Toxic byproducts from oil sands processing","Fish","Drinking water"],ans:1,outcome:"7-E.3-RES",explain:"Tailings contain chemicals, heavy metals, and hydrocarbons."},{q:"Geochemical prospecting analyzes:",opts:["Weather patterns","Soil and water samples for traces of valuable minerals","Cloud formations","Snow depth"],ans:1,outcome:"7-E.3-EXPLORE",explain:"Chemical signatures in soil/water indicate nearby deposits."},{q:"Indigenous communities are affected by resource extraction through:",opts:["Nothing","Land disruption, water contamination, and cultural site impacts","Only benefits","Improved hunting"],ans:1,outcome:"7-E.3-RES",explain:"Extraction impacts traditional lands and ways of life."}],remediation:{"7-E.3-RES":{video:"https://www.youtube.com/embed/SvNHqc2oHZM",questions:[{q:"Oil sands contain:",opts:["Pure oil","Bitumen in sand and clay"],ans:1,explain:"Bitumen must be separated from the sand."},{q:"Reclamation means:",opts:["More mining","Restoring mined land to a natural state"],ans:1,explain:"Legal obligation after extraction."}]},"7-E.3-EXPLORE":{video:"https://www.youtube.com/embed/SvNHqc2oHZM",questions:[{q:"Seismic surveys use:",opts:["Light","Sound waves reflected off underground rock"],ans:1,explain:"Sound reveals subsurface structures."},{q:"Core drilling provides:",opts:["Surface photos","Cylindrical rock samples from underground"],ans:1,explain:"Direct evidence of rock below."}]}}};
+
+    // ===== L3-L6 ACTIVITIES =====
+    const l3TData=[{text:"🌋 Granite exposed on a mountainside begins to crack and break apart",ans:"weathering",explain:"Exposure to weather breaks rock into sediment — first step toward sedimentary rock."},{text:"🪨 Layers of sand and mud are compressed over millions of years",ans:"compaction",explain:"Weight above compacts and cements sediment into sedimentary rock."},{text:"🔥 Limestone buried deep underground where tectonic plates collide",ans:"metamorphism",explain:"Extreme heat and pressure transforms limestone into marble."},{text:"🌊 Magma rises to the surface and erupts as lava, then cools",ans:"cooling",explain:"Cooling lava solidifies into igneous rock (like basalt)."},{text:"⬇️ A metamorphic rock is subducted into the mantle and melts",ans:"melting",explain:"Melting creates magma — which can cool into new igneous rock."}];
+    let l3TIdx=0,l3TOk=0;
+    function initL3T(){l3TIdx=0;l3TOk=0;renderL3T();document.getElementById('l3TransScore').innerHTML='';}
+    function renderL3T(){if(l3TIdx>=l3TData.length){document.getElementById('l3TransScore').innerHTML=`<div class="activity-score"><div class="score-number">${l3TOk}/${l3TData.length}</div><p>${l3TOk>=4?'🎉 Rock cycle master!':'📖 Review the rock cycle processes.'}</p><button class="activity-btn secondary" onclick="initL3T()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(3,'trans',l3TOk,l3TData.length);return;}const d=l3TData[l3TIdx];document.getElementById('l3TransArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${['weathering','compaction','metamorphism','cooling','melting'].map(k=>`<button class="activity-btn secondary" onclick="pickL3T('${k}')" style="flex:1;min-width:80px;font-size:.75rem">${k.charAt(0).toUpperCase()+k.slice(1)}</button>`).join('')}</div><div id="l3TFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l3TIdx+1} of ${l3TData.length}</p>`;}
+    function pickL3T(a){const d=l3TData[l3TIdx],ok=a===d.ans;if(ok)l3TOk++;document.getElementById('l3TFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l3TIdx++;renderL3T();},1500);}
+
+    const l3RData=[{text:"🔥 Basalt — formed from rapidly cooling lava",ans:"igneous",explain:"Quick-cooling lava = fine-grained igneous rock."},{text:"📚 Sandstone — formed from compressed sand layers",ans:"sedimentary",explain:"Sand grains cemented over time = sedimentary rock."},{text:"💎 Marble — formed from limestone under extreme pressure",ans:"metamorphic",explain:"Heat + pressure on limestone = metamorphic marble."},{text:"🪨 Granite — formed from slowly cooling magma underground",ans:"igneous",explain:"Slow-cooling magma = large crystal igneous rock."},{text:"🐚 Limestone — formed from compacted shells and coral",ans:"sedimentary",explain:"Marine organism remains compressed = sedimentary limestone."}];
+    let l3RIdx=0,l3ROk=0;
+    function initL3R(){l3RIdx=0;l3ROk=0;renderL3R();document.getElementById('l3TypeScore').innerHTML='';}
+    function renderL3R(){if(l3RIdx>=l3RData.length){document.getElementById('l3TypeScore').innerHTML=`<div class="activity-score"><div class="score-number">${l3ROk}/${l3RData.length}</div><p>${l3ROk>=4?'🎉 Rock expert!':'📖 Review rock types.'}</p><button class="activity-btn secondary" onclick="initL3R()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(3,'type',l3ROk,l3RData.length);return;}const d=l3RData[l3RIdx];document.getElementById('l3TypeArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px">${['igneous','sedimentary','metamorphic'].map(k=>`<button class="activity-btn secondary" onclick="pickL3R('${k}')" style="flex:1">${{igneous:'🔥 Igneous',sedimentary:'📚 Sedimentary',metamorphic:'💎 Metamorphic'}[k]}</button>`).join('')}</div><div id="l3RFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l3RIdx+1} of ${l3RData.length}</p>`;}
+    function pickL3R(a){const d=l3RData[l3RIdx],ok=a===d.ans;if(ok)l3ROk++;document.getElementById('l3RFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l3RIdx++;renderL3R();},1500);}
+
+    const l4WData=[{text:"❄️ Water freezes in a crack and splits a boulder",ans:"mechanical",explain:"Freeze-thaw = mechanical weathering (physical)."},{text:"🌧️ Acid rain dissolves the surface of a marble statue",ans:"chemical",explain:"Acid reacts with calcium carbonate — chemical change."},{text:"🌳 Tree roots grow into a sidewalk crack and break it",ans:"mechanical",explain:"Root wedging = physical force cracking rock."},{text:"🟤 Iron in rock turns orange-brown (rusts)",ans:"chemical",explain:"Oxidation = chemical weathering changing iron minerals."},{text:"🏔️ Rocks tumble and grind against each other in a river",ans:"mechanical",explain:"Abrasion = physical wearing through friction."}];
+    let l4WIdx=0,l4WOk=0;
+    function initL4W(){l4WIdx=0;l4WOk=0;renderL4W();document.getElementById('l4WeathScore').innerHTML='';}
+    function renderL4W(){if(l4WIdx>=l4WData.length){document.getElementById('l4WeathScore').innerHTML=`<div class="activity-score"><div class="score-number">${l4WOk}/${l4WData.length}</div><p>${l4WOk>=4?'🎉 Weathering pro!':'📖 Review weathering types.'}</p><button class="activity-btn secondary" onclick="initL4W()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(4,'weath',l4WOk,l4WData.length);return;}const d=l4WData[l4WIdx];document.getElementById('l4WeathArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px"><button class="activity-btn secondary" onclick="pickL4W('mechanical')">⚒️ Mechanical</button><button class="activity-btn secondary" onclick="pickL4W('chemical')">🧪 Chemical</button></div><div id="l4WFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l4WIdx+1} of ${l4WData.length}</p>`;}
+    function pickL4W(a){const d=l4WData[l4WIdx],ok=a===d.ans;if(ok)l4WOk++;document.getElementById('l4WFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l4WIdx++;renderL4W();},1500);}
+
+    const l4LData=[{text:"🏜️ Drumheller Badlands — deeply carved valleys in soft rock",ans:"water",explain:"Millions of years of water erosion carved the badlands."},{text:"🪨 Hoodoos — pillar-shaped formations with hard caps",ans:"differential",explain:"Hard cap rock protects soft rock below — differential erosion."},{text:"🏔️ U-shaped valleys in the Rocky Mountains",ans:"glacial",explain:"Glaciers carved wide U-shaped valleys during ice ages."},{text:"🏖️ Smooth, round river pebbles in the Bow River",ans:"water",explain:"Water tumbling rocks smooths them through abrasion."},{text:"🌬️ Wind-sculpted rock formations in Writing-on-Stone Provincial Park",ans:"wind",explain:"Wind-blown sand carves soft rock into unique shapes."}];
+    let l4LIdx=0,l4LOk=0;
+    function initL4L(){l4LIdx=0;l4LOk=0;renderL4L();document.getElementById('l4LandScore').innerHTML='';}
+    function renderL4L(){if(l4LIdx>=l4LData.length){document.getElementById('l4LandScore').innerHTML=`<div class="activity-score"><div class="score-number">${l4LOk}/${l4LData.length}</div><p>${l4LOk>=4?'🎉 Landform expert!':'📖 Review Alberta landforms.'}</p><button class="activity-btn secondary" onclick="initL4L()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(4,'land',l4LOk,l4LData.length);return;}const d=l4LData[l4LIdx];document.getElementById('l4LandArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${['water','glacial','wind','differential'].map(k=>`<button class="activity-btn secondary" onclick="pickL4L('${k}')" style="flex:1;min-width:80px;font-size:.78rem">${{water:'💧 Water',glacial:'🧊 Glacial',wind:'🌬️ Wind',differential:'⬆️ Differential'}[k]}</button>`).join('')}</div><div id="l4LFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l4LIdx+1} of ${l4LData.length}</p>`;}
+    function pickL4L(a){const d=l4LData[l4LIdx],ok=a===d.ans;if(ok)l4LOk++;document.getElementById('l4LFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l4LIdx++;renderL4L();},1500);}
+
+    const l5FData=[{text:"🦕 Layer A (deepest) has trilobite fossils. Layer B (above) has dinosaur fossils. Which is older?",ans:"a",explain:"Deeper layers are older (law of superposition). Trilobites lived before dinosaurs."},{text:"🐚 Layer C has ammonite fossils. Layer D (above) has mammal fossils. Which is older?",ans:"c",explain:"Ammonites went extinct with the dinosaurs — older than mammal layer."},{text:"🌿 Layer E has fern fossils throughout. Layer F (above) has grass fossils. Which is older?",ans:"e",explain:"Ferns evolved before grasses — deeper = older."},{text:"🦴 A fossil is found IN a lava flow between two sedimentary layers. Is it older or younger than the lava?",ans:"older",explain:"The fossil was in rock BEFORE the lava flowed over it — the fossil is older."},{text:"🪨 Two rock layers in different locations both contain the SAME index fossil. What does this mean?",ans:"same",explain:"Same index fossil = approximately the same age, even far apart."}];
+    let l5FIdx=0,l5FOk=0;
+    function initL5F(){l5FIdx=0;l5FOk=0;renderL5F();document.getElementById('l5FossilScore').innerHTML='';}
+    function renderL5F(){if(l5FIdx>=l5FData.length){document.getElementById('l5FossilScore').innerHTML=`<div class="activity-score"><div class="score-number">${l5FOk}/${l5FData.length}</div><p>${l5FOk>=4?'🎉 Fossil detective!':'📖 Review superposition and fossils.'}</p><button class="activity-btn secondary" onclick="initL5F()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(5,'fossil',l5FOk,l5FData.length);return;}const d=l5FData[l5FIdx],opts=l5FIdx<3?[{k:l5FIdx===0?'a':'c',l:l5FIdx===0?'Layer A':'Layer '+(l5FIdx===1?'C':'E')},{k:l5FIdx===0?'b':'d',l:l5FIdx===0?'Layer B':'Layer '+(l5FIdx===1?'D':'F')}]:l5FIdx===3?[{k:'older',l:'Older than lava'},{k:'younger',l:'Younger than lava'}]:[{k:'same',l:'Same age'},{k:'different',l:'Different ages'}];document.getElementById('l5FossilArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px">${opts.map(o=>`<button class="activity-btn secondary" onclick="pickL5F('${o.k}')" style="flex:1">${o.l}</button>`).join('')}</div><div id="l5FFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l5FIdx+1} of ${l5FData.length}</p>`;}
+    function pickL5F(a){const d=l5FData[l5FIdx],ok=a===d.ans;if(ok)l5FOk++;document.getElementById('l5FFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l5FIdx++;renderL5F();},1500);}
+
+    const l5TData=[{text:"🌍 Earth forms from cosmic dust and gas",ans:0,explain:"4.6 billion years ago — Earth's formation."},{text:"🦠 First single-celled life appears",ans:1,explain:"~3.8 billion years ago — earliest life in the oceans."},{text:"🐠 First fish appear in the oceans",ans:2,explain:"~500 million years ago — Cambrian explosion of complex life."},{text:"🦕 Dinosaurs dominate Earth",ans:3,explain:"~230–66 million years ago — the Mesozoic Era."},{text:"☄️ Mass extinction wipes out dinosaurs",ans:4,explain:"66 million years ago — asteroid impact ends the Mesozoic."},{text:"🧑 Modern humans appear",ans:5,explain:"~300,000 years ago — just a blink in geological time."}];
+    let l5TIdx=0,l5TOk=0,l5TPicked=[];
+    function initL5T(){l5TIdx=0;l5TOk=0;l5TPicked=[];renderL5T();document.getElementById('l5TimeScore').innerHTML='';}
+    function renderL5T(){if(l5TIdx>=l5TData.length){document.getElementById('l5TimeScore').innerHTML=`<div class="activity-score"><div class="score-number">${l5TOk}/${l5TData.length}</div><p>${l5TOk>=5?'🎉 Time scale navigator!':'📖 Review the geological time scale.'}</p><button class="activity-btn secondary" onclick="initL5T()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(5,'time',l5TOk,l5TData.length);return;}const avail=l5TData.filter((_,i)=>!l5TPicked.includes(i)).sort(()=>Math.random()-.5);document.getElementById('l5TimeArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-weight:600;margin-bottom:12px">Pick event #${l5TIdx+1} (earliest to latest):</p><div style="display:flex;gap:8px;flex-wrap:wrap">${avail.map(t=>`<button class="activity-btn secondary" onclick="pickL5T(${l5TData.indexOf(t)})" style="flex:1;min-width:120px;font-size:.78rem">${t.text.split(' ').slice(0,4).join(' ')}</button>`).join('')}</div><div id="l5TFb" style="margin-top:8px"></div></div>`;}
+    function pickL5T(idx){const ok=idx===l5TIdx;if(ok)l5TOk++;l5TPicked.push(idx);document.getElementById('l5TFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> Event #${l5TIdx+1}: ${l5TData[l5TIdx].explain}</div>`;setTimeout(()=>{l5TIdx++;renderL5T();},1500);}
+
+    const l6EData=[{text:"📡 Using sound waves to map underground rock layers",ans:"seismic",explain:"Seismic surveys reveal oil/gas traps underground."},{text:"🛰️ Satellite images showing rock colour and surface features",ans:"remote",explain:"Remote sensing identifies geological surface clues."},{text:"🔬 Analyzing soil samples for traces of metals",ans:"geochem",explain:"Geochemical prospecting finds mineral deposit signatures."},{text:"⬇️ Extracting a cylindrical rock sample from 500m underground",ans:"drill",explain:"Core drilling provides direct evidence of subsurface geology."},{text:"🗺️ Walking the landscape mapping rock types and structures",ans:"survey",explain:"Field surveys create detailed geological maps."}];
+    let l6EIdx=0,l6EOk=0;
+    function initL6E(){l6EIdx=0;l6EOk=0;renderL6E();document.getElementById('l6ExploreScore').innerHTML='';}
+    function renderL6E(){if(l6EIdx>=l6EData.length){document.getElementById('l6ExploreScore').innerHTML=`<div class="activity-score"><div class="score-number">${l6EOk}/${l6EData.length}</div><p>${l6EOk>=4?'🎉 Resource explorer!':'📖 Review exploration methods.'}</p><button class="activity-btn secondary" onclick="initL6E()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(6,'explore',l6EOk,l6EData.length);return;}const d=l6EData[l6EIdx];document.getElementById('l6ExploreArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px;flex-wrap:wrap">${['seismic','remote','geochem','drill','survey'].map(k=>`<button class="activity-btn secondary" onclick="pickL6E('${k}')" style="flex:1;min-width:70px;font-size:.73rem">${{seismic:'📡 Seismic',remote:'🛰️ Remote',geochem:'🔬 Geochem',drill:'⬇️ Drilling',survey:'🗺️ Survey'}[k]}</button>`).join('')}</div><div id="l6EFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l6EIdx+1} of ${l6EData.length}</p>`;}
+    function pickL6E(a){const d=l6EData[l6EIdx],ok=a===d.ans;if(ok)l6EOk++;document.getElementById('l6EFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l6EIdx++;renderL6E();},1500);}
+
+    const l6IData=[{text:"💼 Oil sands create thousands of jobs in northern Alberta",ans:true,explain:"Benefit ✅ — Significant employment and economic activity."},{text:"🏭 Tailings ponds contain toxic chemicals that can leak into groundwater",ans:false,explain:"Cost ❌ — Environmental contamination risk."},{text:"💰 Resource royalties fund Alberta schools and hospitals",ans:true,explain:"Benefit ✅ — Revenue supports public services."},{text:"🌲 Mining destroys boreal forest habitat for caribou and other species",ans:false,explain:"Cost ❌ — Habitat loss threatens biodiversity."},{text:"🔋 Minerals like lithium are essential for renewable energy technology",ans:true,explain:"Benefit ✅ — Mining provides materials for green tech."},{text:"💨 Fossil fuel extraction releases greenhouse gases contributing to climate change",ans:false,explain:"Cost ❌ — Carbon emissions accelerate global warming."}];
+    let l6IIdx=0,l6IOk=0;
+    function initL6I(){l6IIdx=0;l6IOk=0;renderL6I();document.getElementById('l6ImpactScore').innerHTML='';}
+    function renderL6I(){if(l6IIdx>=l6IData.length){document.getElementById('l6ImpactScore').innerHTML=`<div class="activity-score"><div class="score-number">${l6IOk}/${l6IData.length}</div><p>${l6IOk>=5?'🎉 Impact evaluator!':'📖 Review benefits and costs.'}</p><button class="activity-btn secondary" onclick="initL6I()" style="margin-top:8px">🔄 Try Again</button></div>`;markActivityDone(6,'impact',l6IOk,l6IData.length);return;}const d=l6IData[l6IIdx];document.getElementById('l6ImpactArea').innerHTML=`<div class="glass-card" style="padding:16px"><p style="font-size:.95rem;margin-bottom:16px">${d.text}</p><div style="display:flex;gap:8px"><button class="activity-btn secondary" onclick="pickL6I(true)" style="flex:1">✅ Benefit</button><button class="activity-btn secondary" onclick="pickL6I(false)" style="flex:1">❌ Cost</button></div><div id="l6IFb" style="margin-top:8px"></div></div><p style="color:var(--text3);font-size:.8rem">${l6IIdx+1} of ${l6IData.length}</p>`;}
+    function pickL6I(a){const d=l6IData[l6IIdx],ok=a===d.ans;if(ok)l6IOk++;document.getElementById('l6IFb').innerHTML=`<div style="padding:10px;border-radius:8px;background:${ok?'rgba(34,197,94,.1)':'rgba(239,68,68,.08)'};font-size:.85rem"><strong>${ok?'✅':'❌'}</strong> ${d.explain}</div>`;setTimeout(()=>{l6IIdx++;renderL6I();},1500);}
+
+    // ===== SAVE/LOAD L3-L7 =====
+    function saveCR3(){localStorage.setItem('g7-unite-l3-cr',document.getElementById('crResponse3').value);}
+    function saveReflection3(){localStorage.setItem('g7-unite-l3-reflect',document.getElementById('reflectionText3').value);}
+    function saveCR4(){localStorage.setItem('g7-unite-l4-cr',document.getElementById('crResponse4').value);}
+    function saveReflection4(){localStorage.setItem('g7-unite-l4-reflect',document.getElementById('reflectionText4').value);}
+    function saveCR5(){localStorage.setItem('g7-unite-l5-cr',document.getElementById('crResponse5').value);}
+    function saveReflection5(){localStorage.setItem('g7-unite-l5-reflect',document.getElementById('reflectionText5').value);}
+    function saveCR6(){localStorage.setItem('g7-unite-l6-cr',document.getElementById('crResponse6').value);}
+    function saveReflection6(){localStorage.setItem('g7-unite-l6-reflect',document.getElementById('reflectionText6').value);}
+    function savePTe(s){localStorage.setItem('g7-unite-pt'+s,document.getElementById('pte'+s).value);}
+    function loadLTextE(n){const cr=document.getElementById('crResponse'+n);if(cr)cr.value=localStorage.getItem('g7-unite-l'+n+'-cr')||'';const rf=document.getElementById('reflectionText'+n);if(rf)rf.value=localStorage.getItem('g7-unite-l'+n+'-reflect')||'';}
+    function loadPTe(){for(let i=1;i<=4;i++){const el=document.getElementById('pte'+i);if(el)el.value=localStorage.getItem('g7-unite-pt'+i)||'';}}
+    function submitPTe(){for(let i=1;i<=4;i++)savePTe(i);localStorage.setItem('g7-unite-lesson7-passed','true');document.getElementById('ptSubmitBtnE').textContent='✅ Submitted!';document.getElementById('ptSubmitBtnE').disabled=true;updateLock();updateProgress();alert('🏆 Your Geological Cross-Section Interpretation has been submitted!');}
+
+    // ===== ACTIVITY GATE =====
+    actComplete = {
+      l1:{layers:false,rocks:false,cycle:false},l2:{bound:false,drift:false,geo:false},
+      l3:{trans:false,type:false},l4:{weath:false,land:false},l5:{fossil:false,time:false},
+      l6:{explore:false,impact:false}
+    };
+
+    function onPageLoad(page){
+      if(page==='lesson1'){initLayers();initRocks();initCycle();loadSavedText();}
+      if(page==='lesson1-quiz')initQuiz('quiz1',quizBanks);
+      if(page==='lesson2'){initBound();initDrift();initGeo();loadSavedText2();}
+      if(page==='lesson2-quiz')initQuiz('quiz2',quizBanks);
+      if(page==='lesson3'){initL3T();initL3R();loadLTextE(3);}
+      if(page==='lesson3-quiz')initQuiz('quiz3',quizBanks);
+      if(page==='lesson4'){initL4W();initL4L();loadLTextE(4);}
+      if(page==='lesson4-quiz')initQuiz('quiz4',quizBanks);
+      if(page==='lesson5'){initL5F();initL5T();loadLTextE(5);}
+      if(page==='lesson5-quiz')initQuiz('quiz5',quizBanks);
+      if(page==='lesson6'){initL6E();initL6I();loadLTextE(6);}
+      if(page==='lesson6-quiz')initQuiz('quiz6',quizBanks);
+      if(page==='lesson7')loadPTe();
+      if(page==='teacher')renderTeacherDashboard();
+    }
+
+    function updateLock(){
+      const total=7;
+      for(let i=1;i<=total;i++){const passed=localStorage.getItem('g7-unite-lesson'+i+'-passed');if(passed){document.querySelectorAll('.nav-item').forEach(n=>{if(n.dataset.page==='lesson'+i||n.dataset.page==='lesson'+i+'-quiz')n.classList.add('completed');});const card=document.getElementById('homeCard'+i);if(card){card.classList.remove('locked');card.classList.add('completed');const b=card.querySelector('.card-btn');if(b)b.textContent='Review ✓';}const nx=i+1;if(nx<=total){document.querySelectorAll('.nav-item').forEach(n=>{if(n.dataset.page==='lesson'+nx||n.dataset.page==='lesson'+nx+'-quiz')n.classList.remove('locked');});const nc=document.getElementById('homeCard'+nx);if(nc){nc.classList.remove('locked');const b=nc.querySelector('.card-btn');if(b&&b.textContent.includes('Locked'))b.textContent='Start Lesson →';}}}
+      }
+    }
+    function updateProgress(){let p=0;for(let i=1;i<=7;i++)if(localStorage.getItem('g7-unite-lesson'+i+'-passed'))p++;const f=document.getElementById('progressFill');if(f)f.style.width=Math.round(p/7*100)+'%';}
+    document.addEventListener('DOMContentLoaded',()=>{updateLock();updateProgress();});
   </script>
 </body>
 </html>
+
